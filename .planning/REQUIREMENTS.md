@@ -147,65 +147,70 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLI-01 | TBD | Pending |
-| CLI-02 | TBD | Pending |
-| CLI-03 | TBD | Pending |
-| CLI-04 | TBD | Pending |
-| CLI-05 | TBD | Pending |
-| CLI-06 | TBD | Pending |
-| CLI-07 | TBD | Pending |
-| CLI-08 | TBD | Pending |
-| DOCTOR-01 | TBD | Pending |
-| DOCTOR-02 | TBD | Pending |
-| DOCTOR-03 | TBD | Pending |
-| ERC20-01 | TBD | Pending |
-| ERC20-02 | TBD | Pending |
-| ERC20-03 | TBD | Pending |
-| ERC20-04 | TBD | Pending |
-| ERC20-05 | TBD | Pending |
-| ERC721-01 | TBD | Pending |
-| ERC721-02 | TBD | Pending |
-| ERC721-03 | TBD | Pending |
-| ERC721-04 | TBD | Pending |
-| ERC721-05 | TBD | Pending |
-| ERC1155-01 | TBD | Pending |
-| ERC1155-02 | TBD | Pending |
-| ERC1155-03 | TBD | Pending |
-| ERC1155-04 | TBD | Pending |
-| ERC1155-05 | TBD | Pending |
-| SPL-01 | TBD | Pending |
-| SPL-02 | TBD | Pending |
-| SPL-03 | TBD | Pending |
-| SPL-04 | TBD | Pending |
-| SPL-05 | TBD | Pending |
-| COMP-01 | TBD | Pending |
-| COMP-02 | TBD | Pending |
-| COMP-03 | TBD | Pending |
-| COMP-04 | TBD | Pending |
-| COMP-05 | TBD | Pending |
-| DEPLOY-01 | TBD | Pending |
-| DEPLOY-02 | TBD | Pending |
-| DEPLOY-03 | TBD | Pending |
-| DEPLOY-04 | TBD | Pending |
-| DEPLOY-05 | TBD | Pending |
-| DEPLOY-06 | TBD | Pending |
-| DEPLOY-07 | TBD | Pending |
-| DEPLOY-08 | TBD | Pending |
-| AI-01 | TBD | Pending |
-| AI-02 | TBD | Pending |
-| AI-03 | TBD | Pending |
-| AI-04 | TBD | Pending |
-| AI-05 | TBD | Pending |
-| AI-06 | TBD | Pending |
-| DIST-01 | TBD | Pending |
-| DIST-02 | TBD | Pending |
-| DIST-03 | TBD | Pending |
+| CLI-01 | Phase 9 | Pending |
+| CLI-02 | Phase 1 | Pending |
+| CLI-03 | Phase 1 | Pending |
+| CLI-04 | Phase 1 | Pending |
+| CLI-05 | Phase 1 | Pending |
+| CLI-06 | Phase 1 | Pending |
+| CLI-07 | Phase 1 | Pending |
+| CLI-08 | Phase 1 | Pending |
+| DOCTOR-01 | Phase 6 | Pending |
+| DOCTOR-02 | Phase 6 | Pending |
+| DOCTOR-03 | Phase 6 | Pending |
+| ERC20-01 | Phase 2 | Pending |
+| ERC20-02 | Phase 2 | Pending |
+| ERC20-03 | Phase 2 | Pending |
+| ERC20-04 | Phase 2 | Pending |
+| ERC20-05 | Phase 2 | Pending |
+| ERC721-01 | Phase 4 | Pending |
+| ERC721-02 | Phase 4 | Pending |
+| ERC721-03 | Phase 4 | Pending |
+| ERC721-04 | Phase 4 | Pending |
+| ERC721-05 | Phase 4 | Pending |
+| ERC1155-01 | Phase 4 | Pending |
+| ERC1155-02 | Phase 4 | Pending |
+| ERC1155-03 | Phase 4 | Pending |
+| ERC1155-04 | Phase 4 | Pending |
+| ERC1155-05 | Phase 4 | Pending |
+| SPL-01 | Phase 7 | Pending |
+| SPL-02 | Phase 7 | Pending |
+| SPL-03 | Phase 7 | Pending |
+| SPL-04 | Phase 7 | Pending |
+| SPL-05 | Phase 7 | Pending |
+| COMP-01 | Phase 3 | Pending |
+| COMP-02 | Phase 7 | Pending |
+| COMP-03 | Phase 3 | Pending |
+| COMP-04 | Phase 3 | Pending |
+| COMP-05 | Phase 3 | Pending |
+| DEPLOY-01 | Phase 5 | Pending |
+| DEPLOY-02 | Phase 5 | Pending |
+| DEPLOY-03 | Phase 5 | Pending |
+| DEPLOY-04 | Phase 5 | Pending |
+| DEPLOY-05 | Phase 7 | Pending |
+| DEPLOY-06 | Phase 5 | Pending |
+| DEPLOY-07 | Phase 5 | Pending |
+| DEPLOY-08 | Phase 5 | Pending |
+| AI-01 | Phase 8 | Pending |
+| AI-02 | Phase 8 | Pending |
+| AI-03 | Phase 8 | Pending |
+| AI-04 | Phase 8 | Pending |
+| AI-05 | Phase 8 | Pending |
+| AI-06 | Phase 8 | Pending |
+| DIST-01 | Phase 9 | Pending |
+| DIST-02 | Phase 9 | Pending |
+| DIST-03 | Phase 9 | Pending |
 
 **Coverage:**
 - v1 requirements: 53 total
-- Mapped to phases: 0 (roadmap not yet created)
-- Unmapped: 53 ⚠️ (will be resolved during roadmap creation)
+- Mapped to phases: 53
+- Unmapped: 0
+
+**Cross-phase notes:**
+- `CLI-01` (npm install -g) is mapped to Phase 9 (Distribution) since cross-platform install verification is the bulk of the work; Phase 1 builds the `bin` entry so the local-link install works during development.
+- `COMP-02` (anchor build shell-out) is mapped to Phase 7 (SPL), where the Anchor adapter lives, alongside `SPL-05` graceful-degradation.
+- `DEPLOY-05` (SPL deploy commands) is mapped to Phase 7 because the SPL DEPLOY.md generator only makes sense once the SPL template exists. Phase 5 (DEPLOY.md Generation) establishes the deploy-doc framework that Phase 7 plugs into.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-15 after initial definition*
+*Last updated: 2026-05-15 — traceability populated by roadmap creation (53/53 mapped)*
