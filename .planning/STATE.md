@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-05-14)
 ## Current Position
 
 Phase: 1 of 9 (CLI Foundation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-05-15 — Roadmap created (9 phases, 53/53 requirements mapped)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-05-16 — Completed 01-01-PLAN.md (scaffold)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] ~3% (1 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: —
+- Total plans completed: 1
+- Average duration: 3min
+- Total execution time: 3min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-cli-foundation | 1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: —
+- Last 5 plans: 01-01 (3min)
 - Trend: —
 
 *Updated after each plan completion*
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - Init: Single contract file output, not full project scaffold
 - Init: Generate-and-compile, not generate-and-deploy
 - Roadmap: Compile-verify (Phase 3) gates all subsequent templates; AI (Phase 8) gated on existing safety net
+- 01-01: ESM-only project (type:module + NodeNext); shebang via tsup banner (not in source); strict TS + noUncheckedIndexedAccess from day one
+- 01-01: vitest `passWithNoTests:true` so empty scaffolds exit 0 (vitest 4.x default is exit 1)
+- 01-01: `.gitattributes eol=lf` is load-bearing — Windows CRLF would break the dist/cli.js shebang
 
 ### Pending Todos
 
@@ -62,6 +65,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-15
-Stopped at: Roadmap created and requirements traceability populated
+Last session: 2026-05-16
+Stopped at: Completed 01-01-PLAN.md (CLI scaffold)
 Resume file: None
+Next plan: 01-02-PLAN.md
