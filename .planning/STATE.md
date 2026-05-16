@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-05-14)
 ## Current Position
 
 Phase: 1 of 9 (CLI Foundation)
-Plan: 1 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-05-16 — Completed 01-01-PLAN.md (scaffold)
+Last activity: 2026-05-16 — Completed 01-03-PLAN.md (template registry)
 
-Progress: [█░░░░░░░░░] ~3% (1 of ~36 plans across roadmap)
+Progress: [█░░░░░░░░░] ~6% (2 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 3min
-- Total execution time: 3min
+- Total plans completed: 2
+- Average duration: 2min
+- Total execution time: 4min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-cli-foundation | 1 | 3min | 3min |
+| 01-cli-foundation | 2 | 4min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min)
+- Last 5 plans: 01-01 (3min), 01-03 (1min)
 - Trend: —
 
 *Updated after each plan completion*
@@ -52,6 +52,9 @@ Recent decisions affecting current work:
 - 01-01: ESM-only project (type:module + NodeNext); shebang via tsup banner (not in source); strict TS + noUncheckedIndexedAccess from day one
 - 01-01: vitest `passWithNoTests:true` so empty scaffolds exit 0 (vitest 4.x default is exit 1)
 - 01-01: `.gitattributes eol=lf` is load-bearing — Windows CRLF would break the dist/cli.js shebang
+- 01-03: Registry JSON contract locked at five fields `{ id, name, chain, status, description }` — future phases ADD optional fields only, never rename or remove
+- 01-03: `register()` throws on duplicate id (no silent overwrites); stub uses `get()` guard for idempotency rather than catching the throw
+- 01-03: Map backs the store for O(1) get + spec-guaranteed insertion-order iteration; `clear()` exported for test isolation only
 
 ### Pending Todos
 
@@ -66,6 +69,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-16
-Stopped at: Completed 01-01-PLAN.md (CLI scaffold)
+Stopped at: Completed 01-03-PLAN.md (template registry)
 Resume file: None
-Next plan: 01-02-PLAN.md
+Next plan: 01-04-PLAN.md (list-templates command — depends on 01-02 errors module + this registry)
