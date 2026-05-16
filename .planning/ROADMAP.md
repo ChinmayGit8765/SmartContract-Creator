@@ -34,10 +34,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User sees terse output by default and explanatory output when passing `--newbie`
   4. User is prompted before overwriting an existing file at the chosen output path, and `--force` skips the prompt
   5. When a command fails, the user sees an actionable error message with a next-step suggestion
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Scaffold TypeScript ESM project (package.json, tsconfig, tsup, vitest, stub entry)
+- [ ] 01-02-PLAN.md — Build load-bearing libs (errors, output, env, color, prompt, version) with unit tests
+- [ ] 01-03-PLAN.md — Build template registry (types, register/list/get, stub canary) with unit tests
+- [ ] 01-04-PLAN.md — Wire commander program + commands + e2e tests (after spike-validating commander 14 patterns)
 
 ### Phase 2: ERC-20 Canary Template
 **Goal**: User can run `smartc create --template erc20` and walk through the wizard to produce a working `.sol` file on disk, proving the entire plugin + builder pipeline on the simplest template.
