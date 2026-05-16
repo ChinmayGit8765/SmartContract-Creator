@@ -1,0 +1,35 @@
+{
+  "name": "smartc",
+  "version": "0.1.0",
+  "description": "Generate compile-verified smart contracts from a wizard.",
+  "type": "module",
+  "bin": {
+    "smartc": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.3",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "tsup": "^8.5.1",
+    "tsx": "^4.22.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.6"
+  }
+}
