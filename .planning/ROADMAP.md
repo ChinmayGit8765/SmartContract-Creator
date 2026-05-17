@@ -12,7 +12,7 @@ SmartContract Creator ships a TypeScript/Node CLI that scaffolds compile-verifie
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: CLI Foundation** - Installable CLI shell with command surface, wizard runner, and verbosity modes
+- [x] **Phase 1: CLI Foundation** - Installable CLI shell with command surface, wizard runner, and verbosity modes
 - [ ] **Phase 2: ERC-20 Canary Template** - First template end-to-end via programmatic builder, proving the plugin architecture
 - [ ] **Phase 3: Compile-Verify Safety Net** - In-process Solidity compile gate; nothing un-compilable reaches disk
 - [ ] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
@@ -34,13 +34,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User sees terse output by default and explanatory output when passing `--newbie`
   4. User is prompted before overwriting an existing file at the chosen output path, and `--force` skips the prompt
   5. When a command fails, the user sees an actionable error message with a next-step suggestion
-**Plans**: 4 plans in 3 waves
+**Plans**: 4 plans in 3 waves (all complete)
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold TypeScript ESM project (package.json, tsconfig, tsup, vitest, stub entry)
-- [ ] 01-02-PLAN.md — Build load-bearing libs (errors, output, env, color, prompt, version) with unit tests
-- [ ] 01-03-PLAN.md — Build template registry (types, register/list/get, stub canary) with unit tests
-- [ ] 01-04-PLAN.md — Wire commander program + commands + e2e tests (after spike-validating commander 14 patterns)
+- [x] 01-01-PLAN.md — Scaffold TypeScript ESM project (package.json, tsconfig, tsup, vitest, stub entry)
+- [x] 01-02-PLAN.md — Build load-bearing libs (errors, output, env, color, prompt, version) with unit tests
+- [x] 01-03-PLAN.md — Build template registry (types, register/list/get, stub canary) with unit tests
+- [x] 01-04-PLAN.md — Wire commander program + commands + e2e tests (after spike-validating commander 14 patterns)
 
 ### Phase 2: ERC-20 Canary Template
 **Goal**: User can run `smartc create --template erc20` and walk through the wizard to produce a working `.sol` file on disk, proving the entire plugin + builder pipeline on the simplest template.
@@ -164,7 +164,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. CLI Foundation | 0/TBD | Not started | - |
+| 1. CLI Foundation | 4/4 | Complete | 2026-05-17 |
 | 2. ERC-20 Canary Template | 0/TBD | Not started | - |
 | 3. Compile-Verify Safety Net | 0/TBD | Not started | - |
 | 4. ERC-721 + ERC-1155 Templates | 0/TBD | Not started | - |

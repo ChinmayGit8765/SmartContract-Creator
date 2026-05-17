@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 1 — CLI Foundation
+**Current focus:** Phase 2 — ERC-20 Canary Template (Phase 1 complete and verified)
 
 ## Current Position
 
-Phase: 1 of 9 (CLI Foundation)
-Plan: 4 of 4 complete in current phase (01-01 scaffold, 01-02 libs, 01-03 registry, 01-04 wiring)
-Status: Ready for phase verification
-Last activity: 2026-05-17 — Completed 01-04-PLAN.md (commander wiring + e2e)
+Phase: 1 of 9 complete; Phase 2 next
+Plan: Phase 1 done (4/4); Phase 2 not started (0/TBD)
+Status: Phase 1 verified passed (5/5 must-haves)
+Last activity: 2026-05-17 — Phase 1 verified passed; ready for /gsd:discuss-phase 2
 
 Progress: [█░░░░░░░░░] ~11% (4 of ~36 plans across roadmap)
 

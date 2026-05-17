@@ -10,13 +10,13 @@ Requirements for initial release. Each maps to roadmap phases.
 ### CLI Foundation
 
 - [ ] **CLI-01**: User can install the CLI globally via `npm install -g smartc`
-- [ ] **CLI-02**: User can run `smartc --help` to see all commands and flags
-- [ ] **CLI-03**: User can run `smartc create` to launch the interactive wizard
-- [ ] **CLI-04**: User can run `smartc list-templates` to see available templates with descriptions
-- [ ] **CLI-05**: User can run `smartc create --template <id>` to skip template selection
-- [ ] **CLI-06**: User can pass `--newbie` for explanatory output or `--experienced` (default) for terse output
-- [ ] **CLI-07**: User is prompted before overwriting an existing file; `--force` flag skips the prompt
-- [ ] **CLI-08**: User sees actionable error messages (next-step guidance) when any command fails
+- [x] **CLI-02**: User can run `smartc --help` to see all commands and flags
+- [x] **CLI-03**: User can run `smartc create` to launch the interactive wizard
+- [x] **CLI-04**: User can run `smartc list-templates` to see available templates with descriptions
+- [x] **CLI-05**: User can run `smartc create --template <id>` to skip template selection
+- [x] **CLI-06**: User can pass `--newbie` for explanatory output or `--experienced` (default) for terse output
+- [x] **CLI-07**: User is prompted before overwriting an existing file; `--force` flag skips the prompt
+- [x] **CLI-08**: User sees actionable error messages (next-step guidance) when any command fails
 
 ### Doctor / Environment
 
@@ -148,13 +148,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | CLI-01 | Phase 9 | Pending |
-| CLI-02 | Phase 1 | Pending |
-| CLI-03 | Phase 1 | Pending |
-| CLI-04 | Phase 1 | Pending |
-| CLI-05 | Phase 1 | Pending |
-| CLI-06 | Phase 1 | Pending |
-| CLI-07 | Phase 1 | Pending |
-| CLI-08 | Phase 1 | Pending |
+| CLI-02 | Phase 1 | Complete |
+| CLI-03 | Phase 1 | Complete |
+| CLI-04 | Phase 1 | Complete |
+| CLI-05 | Phase 1 | Complete |
+| CLI-06 | Phase 1 | Complete |
+| CLI-07 | Phase 1 | Complete |
+| CLI-08 | Phase 1 | Complete |
 | DOCTOR-01 | Phase 6 | Pending |
 | DOCTOR-02 | Phase 6 | Pending |
 | DOCTOR-03 | Phase 6 | Pending |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-15 — traceability populated by roadmap creation (53/53 mapped)*
+*Last updated: 2026-05-17 — Phase 1 complete: CLI-02..CLI-08 marked Complete (7 of 8 CLI requirements; CLI-01 remains Phase 9 scope)*
