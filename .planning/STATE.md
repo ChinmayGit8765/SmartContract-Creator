@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-05-14)
 ## Current Position
 
 Phase: 1 of 9 (CLI Foundation)
-Plan: 3 of 4 complete in current phase (01-01 scaffold, 01-02 libs, 01-03 registry — only 01-04 wiring remains)
-Status: In progress
-Last activity: 2026-05-16 — Completed 01-02-PLAN.md (core libs)
+Plan: 4 of 4 complete in current phase (01-01 scaffold, 01-02 libs, 01-03 registry, 01-04 wiring)
+Status: Ready for phase verification
+Last activity: 2026-05-17 — Completed 01-04-PLAN.md (commander wiring + e2e)
 
-Progress: [█░░░░░░░░░] ~8% (3 of ~36 plans across roadmap)
+Progress: [█░░░░░░░░░] ~11% (4 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 3min
-- Total execution time: 9min
+- Total plans completed: 4
+- Average duration: ~5min
+- Total execution time: ~21min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-cli-foundation | 3 | 9min | 3min |
+| 01-cli-foundation | 4 | ~21min | ~5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min), 01-03 (1min), 01-02 (5min)
+- Last 5 plans: 01-01 (3min), 01-03 (1min), 01-02 (5min), 01-04 (~12min, includes orchestrator-completed Task 2)
 - Trend: —
 
 *Updated after each plan completion*
@@ -60,6 +60,9 @@ Recent decisions affecting current work:
 - 01-02: Newbie precedence: flag > explicit `false` > env `SMARTC_NEWBIE` > absent → false. Plan 04 commander wiring follows the sketch in 01-02-SUMMARY.md
 - 01-02: `safeReadVersion` uses dual-strategy resolve (direct + walk-up via entry-point dirname) — required because modern packages (commander@14, future solc) restrict `./package.json` in their exports map; Phase 3 will get correct semver automatically once solc/@oz are installed
 - 01-02: Vitest 4 ESM mock pattern locked in: `vi.mock("@clack/prompts", ...)` followed by top-level `await import(SUT)` so the SUT picks up the mock (static import would hoist above and bind to real module)
+- 01-04: Commander 14 usage errors (excessArguments, unknownCommand, unknownOption) map to exit 2 in src/cli.ts per Unix convention; only --help / --version propagate commander's exit code (0). Commander's native default is exit 1 for usage errors — we override
+- 01-04: `parseAsync(args, { from: "user" })` expects user-facing positionals only (no node/program prefix) — important for in-process command unit tests
+- 01-04: createCommandStub option surface (`--template <id>`, `--out <path>`) is locked from Phase 1; Phase 2 replaces only the `.action()` body
 
 ### Pending Todos
 
@@ -73,7 +76,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-16
-Stopped at: Completed 01-02-PLAN.md (core libs). Plans 01-01, 01-02, 01-03 all complete; only 01-04 remains in Phase 1.
+Last session: 2026-05-17
+Stopped at: All 4 plans in Phase 1 complete (01-01 scaffold, 01-02 libs, 01-03 registry, 01-04 commander wiring + e2e). Phase 1 ready for goal verification.
 Resume file: None
-Next plan: 01-04-PLAN.md (commander wiring — consumes the six libs from 01-02 and the registry from 01-03; see 01-02-SUMMARY.md "Notes for Plan 04" for the wiring sketch)
+Next plan: Phase 2 (ERC-20 canary template) — see ROADMAP.md. Phase 1 still pending verifier + roadmap/requirements updates + push.
