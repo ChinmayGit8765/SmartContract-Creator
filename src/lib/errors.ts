@@ -4,6 +4,9 @@ export const ERR_FILE_EXISTS = "E_FILE_EXISTS" as const;
 export const ERR_NOT_IMPLEMENTED = "E_NOT_IMPLEMENTED" as const;
 export const ERR_USAGE = "E_USAGE" as const;
 export const ERR_UNKNOWN = "E_UNKNOWN" as const;
+// Phase 2 additions — stable from this commit forward; never rename or remove.
+export const ERR_WIZARD_CANCEL = "E_WIZARD_CANCEL" as const;
+export const ERR_INVALID_INPUT = "E_INVALID_INPUT" as const;
 
 export interface CliErrorInit {
   code: string;
