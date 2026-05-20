@@ -841,7 +841,7 @@ it("SC-4: overwrite prompt + --force is wired through create dispatcher", async 
 
 **Empty assumptions table is NOT the case here — these are concrete decisions the planner should sanity-check, especially A2 (permit default) and A6 (no managed). All others are low-risk research judgments that survive into implementation.**
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **`permit: true` (wizard default) — accept or override to `permit: false`?**
    - What we know: wizard.openzeppelin.com always emits `ERC20Permit` when its checkbox is ticked, and the default is ticked. Setting `permit: false` would diverge from byte-for-byte wizard equality.
