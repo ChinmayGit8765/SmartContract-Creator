@@ -1,10 +1,12 @@
 ---
 phase: 2
 slug: erc-20-canary-template
-status: draft
+status: approved
 shadcn_initialized: false
 preset: not applicable (terminal CLI; no DOM)
 created: 2026-05-20
+reviewed_at: 2026-05-20
+checker_verdict: 6/6 PASS
 ---
 
 # Phase 2 — UI Design Contract (Terminal CLI)
