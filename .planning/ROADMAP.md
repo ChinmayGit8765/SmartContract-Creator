@@ -51,10 +51,14 @@ Plans:
   2. User can opt in to Mintable, Burnable, and Pausable independently
   3. When Mintable or Pausable is selected, user is asked to choose Ownable or AccessControl
   4. The generated `.sol` file matches OpenZeppelin Wizard output conventions (no syntax-corrupting template hacks)
-**Plans**: TBD
+**Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — Wave 0: spike (@openzeppelin/wizard probes), Template generic widening, error-code constants, opts.ts type contracts, spec skeletons
+- [ ] 02-02-PLAN.md — Wave 1 (parallel with 02-03): validators, filename derivation, generate() wrapper + golden snapshot fixtures
+- [ ] 02-03-PLAN.md — Wave 1 (parallel with 02-02): wizard.ts (seven-prompt sequence, cancelGuard, centralization warning)
+- [ ] 02-04-PLAN.md — Wave 2: registerErc20Template factory, dispatcher .action() body, canary retirement, in-process command spec
+- [ ] 02-05-PLAN.md — Wave 3: SC-4 e2e fill-in, version-line @openzeppelin/wizard segment (UI-16), ROADMAP finalization
 
 ### Phase 3: Compile-Verify Safety Net
 **Goal**: User never receives a file that doesn't compile — the Solidity compile gate runs in-process before any source touches disk, against pinned OpenZeppelin and `solc` versions.
