@@ -6,6 +6,8 @@ import {
   ERR_NOT_IMPLEMENTED,
   ERR_USAGE,
   ERR_UNKNOWN,
+  ERR_WIZARD_CANCEL,
+  ERR_INVALID_INPUT,
 } from "../src/lib/errors.js";
 import { makeColor } from "../src/lib/color.js";
 
@@ -46,6 +48,9 @@ describe("CliError", () => {
     expect(ERR_NOT_IMPLEMENTED).toBe("E_NOT_IMPLEMENTED");
     expect(ERR_USAGE).toBe("E_USAGE");
     expect(ERR_UNKNOWN).toBe("E_UNKNOWN");
+    // Phase 2 additions — stable from this commit forward.
+    expect(ERR_WIZARD_CANCEL).toBe("E_WIZARD_CANCEL");
+    expect(ERR_INVALID_INPUT).toBe("E_INVALID_INPUT");
   });
 });
 
