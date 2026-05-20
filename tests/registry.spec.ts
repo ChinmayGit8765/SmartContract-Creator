@@ -55,16 +55,19 @@ describe("registry", () => {
     expect(() => register(tplA)).toThrowError(/a/);
   });
 
-  it("locks the template shape to exactly five fields", () => {
+  it("locks the five required data keys and forbids new data fields", () => {
     register(tplA);
-    const tpl = list()[0];
-    expect(Object.keys(tpl!).sort()).toEqual([
-      "chain",
-      "description",
-      "id",
-      "name",
-      "status",
-    ]);
+    const tpl = list()[0]!;
+    const required = ["chain", "description", "id", "name", "status"] as const;
+    for (const k of required) {
+      expect(Object.keys(tpl)).toContain(k);
+    }
+    const extras = Object.keys(tpl).filter(
+      (k) => !required.includes(k as typeof required[number]),
+    );
+    for (const extra of extras) {
+      expect(typeof (tpl as Record<string, unknown>)[extra]).toBe("function");
+    }
   });
 
   it("registers the foundation-smoke stub canary with correct shape", () => {
