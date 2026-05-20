@@ -1,33 +1,50 @@
-import { describe, it } from "vitest";
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { describe, it, expect } from "vitest";
+import { contractNameToFilename } from "../../../src/templates/erc20/filename.js";
 
-// SUT lands in Plan 02-03. Until then the module does not exist; conditionally
-// import so spec collection does not fail during Wave 0.
-const SUT_PATH = "../../../src/templates/erc20/filename.js";
-const SUT_FS_PATH = fileURLToPath(new URL("../../../src/templates/erc20/filename.ts", import.meta.url));
-let contractNameToFilename: unknown;
-if (existsSync(SUT_FS_PATH)) {
-  try {
-    const mod = await import(SUT_PATH);
-    contractNameToFilename = (mod as { contractNameToFilename?: unknown }).contractNameToFilename;
-  } catch {
-    contractNameToFilename = undefined;
-  }
-}
+// Test-case table is locked in .planning/phases/02-erc-20-canary-template/02-RESEARCH.md
+// §Filename Derivation (lines ~530-541). One `it` per row of the table; eight rows total.
+// Table-driven shape per tests/env.spec.ts and PATTERNS.md §filename.spec.ts.
 
-// Table-driven shape borrowed from tests/env.spec.ts (the canonical Phase 1
-// pattern). RESEARCH §Filename Derivation defines the full test-case table;
-// Plan 02-03 fills each placeholder with the actual `expect(...).toBe(...)`.
 describe("contractNameToFilename", () => {
-  it.todo("passthrough: MyToken → MyToken.sol");
-  it.todo("space-separated PascalCase: My Token → MyToken.sol");
-  it.todo("underscore: my_token → MyToken.sol");
-  it.todo("trailing digits preserved: MyToken123 → MyToken123.sol");
-  it.todo("leading digits stripped: 123Token → Token.sol");
-  it.todo("hyphenated: my-cool-token → MyCoolToken.sol");
-  it.todo("whitespace fallback: '   ' → Token.sol");
-  it.todo("all-symbol fallback: '$$$' → Token.sol");
-});
+  it("passthrough: MyToken -> MyToken.sol", () => {
+    expect(contractNameToFilename("MyToken")).toBe("MyToken.sol");
+  });
 
-void contractNameToFilename;
+  it("space-separated PascalCase: 'My Token' -> MyToken.sol", () => {
+    expect(contractNameToFilename("My Token")).toBe("MyToken.sol");
+  });
+
+  it("underscore: my_token -> MyToken.sol", () => {
+    expect(contractNameToFilename("my_token")).toBe("MyToken.sol");
+  });
+
+  it("trailing digits preserved: MyToken123 -> MyToken123.sol", () => {
+    expect(contractNameToFilename("MyToken123")).toBe("MyToken123.sol");
+  });
+
+  it("leading digits stripped: 123Token -> Token.sol", () => {
+    expect(contractNameToFilename("123Token")).toBe("Token.sol");
+  });
+
+  it("hyphenated: my-cool-token -> MyCoolToken.sol", () => {
+    expect(contractNameToFilename("my-cool-token")).toBe("MyCoolToken.sol");
+  });
+
+  it("whitespace-only fallback: '   ' -> Token.sol", () => {
+    expect(contractNameToFilename("   ")).toBe("Token.sol");
+  });
+
+  it("all-symbol fallback: '$$$' -> Token.sol", () => {
+    expect(contractNameToFilename("$$$")).toBe("Token.sol");
+  });
+
+  it("empty string fallback: '' -> Token.sol (defensive — validator should reject upstream)", () => {
+    expect(contractNameToFilename("")).toBe("Token.sol");
+  });
+
+  it("does not throw on any input (pure function contract)", () => {
+    expect(() => contractNameToFilename("")).not.toThrow();
+    expect(() => contractNameToFilename("$$$")).not.toThrow();
+    expect(() => contractNameToFilename("123")).not.toThrow();
+  });
+});
