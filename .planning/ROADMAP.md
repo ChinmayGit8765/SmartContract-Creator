@@ -55,8 +55,8 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Wave 0: spike (@openzeppelin/wizard probes), Template generic widening, error-code constants, opts.ts type contracts, spec skeletons
-- [ ] 02-02-PLAN.md — Wave 1 (parallel with 02-03): validators, filename derivation, generate() wrapper + golden snapshot fixtures
-- [ ] 02-03-PLAN.md — Wave 1 (parallel with 02-02): wizard.ts (seven-prompt sequence, cancelGuard, centralization warning)
+- [x] 02-02-PLAN.md — Wave 1 (parallel with 02-03): validators, filename derivation, generate() wrapper + golden snapshot fixtures
+- [x] 02-03-PLAN.md — Wave 1 (parallel with 02-02): wizard.ts (seven-prompt sequence, cancelGuard, centralization warning)
 - [ ] 02-04-PLAN.md — Wave 2: registerErc20Template factory, dispatcher .action() body, canary retirement, in-process command spec
 - [ ] 02-05-PLAN.md — Wave 3: SC-4 e2e fill-in, version-line @openzeppelin/wizard segment (UI-16), ROADMAP finalization
 
@@ -169,7 +169,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. CLI Foundation | 4/4 | Complete | 2026-05-17 |
-| 2. ERC-20 Canary Template | 1/5 | In Progress|  |
+| 2. ERC-20 Canary Template | 3/5 | In Progress|  |
 | 3. Compile-Verify Safety Net | 0/TBD | Not started | - |
 | 4. ERC-721 + ERC-1155 Templates | 0/TBD | Not started | - |
 | 5. DEPLOY.md Generation | 0/TBD | Not started | - |
