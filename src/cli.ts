@@ -1,12 +1,12 @@
 // Entry. Boots stub registry, builds program, dispatches, handles errors.
 import { buildProgram } from "./program.js";
-import { registerStubTemplates } from "./registry/stub.js";
+import { registerErc20Template } from "./templates/erc20/index.js";
 import { CliError, renderError } from "./lib/errors.js";
 import { makeColor } from "./lib/color.js";
 import { resolveNewbie } from "./lib/env.js";
 
 async function main(): Promise<void> {
-  registerStubTemplates();
+  registerErc20Template();
   const program = buildProgram();
 
   try {

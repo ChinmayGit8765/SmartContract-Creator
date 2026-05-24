@@ -48,11 +48,12 @@ describe("smartc CLI (e2e)", () => {
     expect(r.stdout).toContain("-V");
   }, 15_000);
 
-  it("SC-2: list-templates shows the canary in default table", () => {
+  it("SC-2: list-templates shows the registered template(s) in default table", () => {
     const r = runCli(["list-templates"]);
     expect(r.status).toBe(0);
-    expect(r.stdout).toContain("foundation-smoke");
-    expect(r.stdout).toContain("Foundation Smoke Test");
+    // Phase 2 retired the foundation-smoke canary; erc20 is the sole registered template.
+    expect(r.stdout).toContain("erc20");
+    expect(r.stdout).toContain("ERC-20 Token");
   }, 15_000);
 
   it("SC-2: list-templates --json emits the locked five-field shape", () => {
