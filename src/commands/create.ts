@@ -1,23 +1,114 @@
+import { existsSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
+import path from "node:path";
 import { Command, Option } from "commander";
-import { CliError, ERR_NOT_IMPLEMENTED } from "../lib/errors.js";
+import { CliError, ERR_USAGE } from "../lib/errors.js";
+import { makeColor } from "../lib/color.js";
+import { makeOutput } from "../lib/output.js";
+import { resolveNewbie } from "../lib/env.js";
+import { get as getTemplate } from "../registry/index.js";
+import { confirmOverwrite } from "../lib/prompt.js";
 
-/** Phase 1 stub for `smartc create [--template <id>]`.
- *  Registered so --help discovers it (satisfies CLI-03 / CLI-05).
- *  Action throws E_NOT_IMPLEMENTED — Phase 2 replaces with the real wizard.
+/** Phase 2 dispatcher for `smartc create --template <id>`.
+ *
+ *  Pipeline: --json refusal (UI-10) -> --template required-flag check (W3) ->
+ *  registry lookup -> runWizard -> generate -> [Phase 3 splice point] ->
+ *  confirmOverwrite -> fs.writeFile -> result + nextStep footer (UI-05).
+ *
+ *  Renamed from Phase 1's stub factory. The option surface
+ *  (`--template <id>`, `--out <path>`) is locked from Phase 1; only the
+ *  `.action()` body changed.
  */
-export function createCommandStub(): Command {
+export function createCommand(): Command {
   const cmd = new Command("create")
     .description("Launch the interactive wizard to scaffold a new contract")
     .addOption(new Option("--template <id>", "Skip template picker; use this template directly"))
     .addOption(new Option("--out <path>", "Write generated file to this path (default: ./<name>.sol)"));
 
-  cmd.action(() => {
-    throw new CliError({
-      code: ERR_NOT_IMPLEMENTED,
-      what: "The 'create' command is not yet implemented in Phase 1.",
-      why: "Phase 1 ships the CLI foundation (help, list-templates, verbosity). Template generation lands in Phase 2 (ERC-20 canary template).",
-      fix: "Track progress at .planning/ROADMAP.md. For now, run 'smartc list-templates' to see what is registered.",
-    });
+  cmd.action(async function (this: Command) {
+    const globalOpts = this.optsWithGlobals() as {
+      template?: string;
+      out?: string;
+      newbie?: boolean;
+      json?: boolean;
+      force?: boolean;
+      color?: boolean;
+    };
+
+    // UI-10: --json + create is refused early (wizard requires TTY, mode is in Deferred Ideas).
+    if (globalOpts.json) {
+      throw new CliError({
+        code: ERR_USAGE,
+        what: "'smartc create' cannot run in --json mode.",
+        why: "The wizard requires an interactive TTY, which is incompatible with machine-readable output.",
+        fix: "Re-run without --json. Flag-driven non-interactive generation is planned for a future release; track it in .planning/STATE.md.",
+        exitCode: 2,
+      });
+    }
+
+    // Phase 2 requires explicit --template selection. Phase 4 introduces the interactive picker
+    // when multiple templates ship; until then, refuse missing --template to avoid a silent
+    // default that would mask the future picker decision.
+    if (!globalOpts.template) {
+      throw new CliError({
+        code: ERR_USAGE,
+        what: "Missing --template flag.",
+        why: "`smartc create` requires --template in Phase 2 (one template ships: erc20). Phase 4 introduces the interactive multi-template picker.",
+        fix: "Re-run with `--template erc20`. Run `smartc list-templates` to see available templates.",
+        exitCode: 2,
+      });
+    }
+
+    const noColor = globalOpts.color === false;
+    const color = makeColor(noColor);
+    const newbie = resolveNewbie({ newbieFlag: globalOpts.newbie });
+    const output = makeOutput({ newbie, json: false, color });
+
+    // 1. Resolve template — Phase 2 ships only --template lookup (no interactive picker yet; Phase 4 problem).
+    const templateId = globalOpts.template; // Phase 2: required-flag, no silent default.
+    const tpl = getTemplate(templateId);
+    if (!tpl) {
+      throw new CliError({
+        code: ERR_USAGE,
+        what: `Template '${templateId}' was not found in the registry.`,
+        why: "The --template id does not match any registered template.",
+        fix: "Run 'smartc list-templates' to see available templates.",
+        exitCode: 2,
+      });
+    }
+    if (!tpl.runWizard || !tpl.generate) {
+      throw new CliError({
+        code: ERR_USAGE,
+        what: `Template '${tpl.id}' is not generatable (status: ${tpl.status}).`,
+        why: "This template is registered for discoverability but has no generator wired.",
+        fix: "Run 'smartc list-templates' to see generatable templates.",
+        exitCode: 2,
+      });
+    }
+
+    // 2. Wizard — runs prompts; throws E_WIZARD_CANCEL on Ctrl+C.
+    const opts = await tpl.runWizard({ output });
+
+    // 3. Generate — pure transform, no I/O.
+    const { filename, source } = tpl.generate(opts);
+
+    // ◄─── PHASE 3 SPLICE POINT: compileVerify(source, tpl.chain) inserts HERE per UI-SPEC §Coordination Seams ───►
+
+    // 4. Resolve output path.
+    const outPath = globalOpts.out ?? path.resolve(process.cwd(), filename);
+
+    // 5. Overwrite gate (Phase 1 contract — confirmOverwrite respects --force and throws CliError(E_FILE_EXISTS) on refusal).
+    if (existsSync(outPath)) {
+      await confirmOverwrite(outPath, { force: globalOpts.force });
+    }
+
+    // 6. Write.
+    await writeFile(outPath, source, "utf8");
+
+    // 7. Surface result + newbie next steps (UI-05 locked copy).
+    output.result(`Wrote ${outPath}`);
+    output.nextStep("Run 'smartc list-templates' to see other templates.");
+    output.nextStep("Phase 3 will add automatic compile-verify before write — for now the .sol references @openzeppelin/contracts which you'll need installed to compile.");
   });
 
   return cmd;

@@ -73,41 +73,44 @@ describe("smartc CLI (e2e)", () => {
     ]);
   }, 15_000);
 
-  it("SC-3: default mode is terse — create stub prints error block only, no newbie channels", () => {
+  // Phase 2: `smartc create` without --template now refuses with E_USAGE (exit 2)
+  // per W3. The three-part Error/Why/Fix block + newbie-channel silence behavior
+  // is what SC-3 / SC-5 lock — the literal error code updated to E_USAGE.
+  it("SC-3: default mode is terse — create error block only, no newbie channels", () => {
     const r = runCli(["create"]);
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
     expect(r.stderr).toContain("Error:");
     expect(r.stderr).toContain("Why:");
     expect(r.stderr).toContain("Fix:");
-    expect(r.stderr).toContain("E_NOT_IMPLEMENTED");
+    expect(r.stderr).toContain("E_USAGE");
     expect(r.stderr).not.toMatch(/\bsee:/);
     expect(r.stderr).not.toMatch(/\bnext:/);
   }, 15_000);
 
   it("SC-3: --newbie flag is accepted without breakage", () => {
     const r = runCli(["--newbie", "create"]);
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
     expect(r.stderr).toContain("Error:");
-    expect(r.stderr).toContain("E_NOT_IMPLEMENTED");
+    expect(r.stderr).toContain("E_USAGE");
   }, 15_000);
 
   it("SC-3: SMARTC_NEWBIE env triggers newbie mode without crash", () => {
     const r = runCli(["create"], { SMARTC_NEWBIE: "1" });
-    expect(r.status).toBe(1);
-    expect(r.stderr).toContain("E_NOT_IMPLEMENTED");
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("E_USAGE");
   }, 15_000);
 
   it("SC-3: --newbie flag overrides SMARTC_NEWBIE=0", () => {
     const r = runCli(["--newbie", "create"], { SMARTC_NEWBIE: "0" });
-    expect(r.status).toBe(1);
-    expect(r.stderr).toContain("E_NOT_IMPLEMENTED");
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("E_USAGE");
   }, 15_000);
 
-  it.skip("SC-4: overwrite prompt + --force (deferred to Phase 2 when create writes files)", () => {});
+  it.skip("SC-4: overwrite prompt + --force (e2e deferred to Plan 02-05; unit coverage in tests/commands/create.spec.ts)", () => {});
 
   it("SC-5: errors are actionable — what/why/fix labels all present", () => {
     const r = runCli(["create"]);
-    expect(r.stderr).toMatch(/Error:.*E_NOT_IMPLEMENTED/s);
+    expect(r.stderr).toMatch(/Error:.*E_USAGE/s);
     expect(r.stderr).toMatch(/Why:/);
     expect(r.stderr).toMatch(/Fix:/);
   }, 15_000);
@@ -138,15 +141,17 @@ describe("smartc CLI (e2e)", () => {
     expect(all).toMatch(/unknown command|usage/);
   }, 15_000);
 
-  it("CLI-05: --template is wired on create (option is registered, action reachable)", () => {
+  it("CLI-05: --template is wired on create (option is registered; unknown template -> E_USAGE)", () => {
     const r = runCli(["create", "--template", "foundation-smoke"]);
-    expect(r.status).toBe(1);
-    expect(r.stderr).toContain("E_NOT_IMPLEMENTED");
+    // Phase 2 retired the foundation-smoke canary; unknown template -> E_USAGE exit 2.
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("E_USAGE");
+    expect(r.stderr).toContain("foundation-smoke");
   }, 15_000);
 
   it("--no-color suppresses ANSI escape sequences in error output", () => {
     const r = runCli(["--no-color", "create"]);
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
     expect(r.stderr).not.toMatch(/\x1b\[/);
   }, 15_000);
 });
