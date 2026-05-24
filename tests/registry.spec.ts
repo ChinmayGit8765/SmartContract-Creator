@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { clear, get, list, register } from "../src/registry/index.js";
 import { registerStubTemplates } from "../src/registry/stub.js";
+import { registerErc20Template } from "../src/templates/erc20/index.js";
 import type { Template } from "../src/registry/types.js";
 
 const tplA: Template = {
@@ -82,5 +83,15 @@ describe("registry", () => {
     registerStubTemplates();
     expect(() => registerStubTemplates()).not.toThrow();
     expect(list()).toHaveLength(1);
+  });
+
+  it("registers the ERC-20 template with id='erc20', status='alpha', and runWizard/generate as functions", () => {
+    registerErc20Template();
+    expect(list()).toHaveLength(1);
+    const tpl = list()[0]!;
+    expect(tpl.id).toBe("erc20");
+    expect(tpl.status).toBe("alpha");
+    expect(typeof (tpl as Record<string, unknown>).runWizard).toBe("function");
+    expect(typeof (tpl as Record<string, unknown>).generate).toBe("function");
   });
 });

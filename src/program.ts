@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { formatVersionLine } from "./lib/version.js";
 import { makeColor } from "./lib/color.js";
 import { listTemplatesCommand } from "./commands/list-templates.js";
-import { createCommandStub } from "./commands/create.js";
+import { createCommand } from "./commands/create.js";
 
 /** Builds the smartc commander program tree.
  *  Returns the unparsed Command — caller controls parseAsync / exitOverride.
@@ -30,7 +30,7 @@ export function buildProgram(): Command {
     this.outputHelp();
   });
 
-  program.addCommand(createCommandStub());
+  program.addCommand(createCommand());
   program.addCommand(listTemplatesCommand());
 
   return program;
