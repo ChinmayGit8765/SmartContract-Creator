@@ -218,10 +218,15 @@ describe("create command (in-process dispatcher)", () => {
     expect(written).toContain("contract MyToken");
   });
 
-  it("Phase 3 splice point comment present in src/commands/create.ts", () => {
+  it("Phase 3 splice landed in src/commands/create.ts (marker consumed, compileVerify wired)", () => {
     const source = readFileSync("src/commands/create.ts", "utf8");
-    const matches = source.match(/PHASE 3 SPLICE POINT/g) ?? [];
-    expect(matches.length).toBe(1);
+    // Marker consumed: zero occurrences of the Phase 2 placeholder.
+    const markerMatches = source.match(/PHASE 3 SPLICE POINT/g) ?? [];
+    expect(markerMatches.length).toBe(0);
+    // compileVerify wired with the locked signature (source, tpl.chain).
+    const callMatches =
+      source.match(/compileVerify\(source,\s*tpl\.chain\)/g) ?? [];
+    expect(callMatches.length).toBeGreaterThanOrEqual(1);
   });
 });
 

@@ -8,6 +8,8 @@ import { makeOutput } from "../lib/output.js";
 import { resolveNewbie } from "../lib/env.js";
 import { get as getTemplate } from "../registry/index.js";
 import { confirmOverwrite } from "../lib/prompt.js";
+import { compileVerify } from "../compiler/index.js";
+import { safeReadVersion } from "../lib/version.js";
 
 /** Phase 2 dispatcher for `smartc create --template <id>`.
  *
@@ -92,7 +94,29 @@ export function createCommand(): Command {
     // 3. Generate — pure transform, no I/O.
     const { filename, source } = tpl.generate(opts);
 
-    // ◄─── PHASE 3 SPLICE POINT: compileVerify(source, tpl.chain) inserts HERE per UI-SPEC §Coordination Seams ───►
+    // Phase 3 — compile-verify gate (D-06, D-07, D-10): throws CliError(E_COMPILE_FAILED) on errors; warnings surface via output.warn.
+    // Refuse chain="any" templates here — compileVerify only handles concrete chains.
+    // Discovery-only templates (status="stub" with chain="any") are filtered out by the
+    // !tpl.generate check above; if we reach here with chain="any", the template author
+    // erred by shipping a generate() without picking a chain.
+    if (tpl.chain !== "evm" && tpl.chain !== "solana") {
+      throw new CliError({
+        code: ERR_USAGE,
+        what: `Template '${tpl.id}' has chain='${tpl.chain}' which is not compile-verifiable.`,
+        why: "compile-verify dispatches on chain (evm → solc, solana → anchor build). Templates with chain='any' are discovery-only and must not ship a generate() function.",
+        fix: "Report this — the template registration is inconsistent (generate present but chain='any').",
+        exitCode: 2,
+      });
+    }
+    const { warnings } = await compileVerify(source, tpl.chain);
+    for (const w of warnings) {
+      output.warn(w.formattedMessage);
+    }
+    if (warnings.length > 0 && newbie) {
+      output.explain(
+        "Warnings don't block deployment but often point at latent bugs. Review each before shipping.",
+      );
+    }
 
     // 4. Resolve output path.
     const outPath = globalOpts.out ?? path.resolve(process.cwd(), filename);
@@ -107,8 +131,12 @@ export function createCommand(): Command {
 
     // 7. Surface result + newbie next steps (UI-05 locked copy).
     output.result(`Wrote ${outPath}`);
+    const solcVer = safeReadVersion("solc") ?? "unknown";
+    const ozVer = safeReadVersion("@openzeppelin/contracts") ?? "unknown";
+    output.nextStep(
+      `Compile-verified against solc ${solcVer} + @openzeppelin/contracts ${ozVer}.`,
+    );
     output.nextStep("Run 'smartc list-templates' to see other templates.");
-    output.nextStep("Phase 3 will add automatic compile-verify before write — for now the .sol references @openzeppelin/contracts which you'll need installed to compile.");
   });
 
   return cmd;
