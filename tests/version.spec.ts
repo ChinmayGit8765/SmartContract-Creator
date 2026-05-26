@@ -12,12 +12,16 @@ describe("safeReadVersion", () => {
     expect(v).toMatch(/^\d+\.\d+\.\d+/);
   });
 
-  it("returns null for solc in Phase 1 (not yet a dependency)", () => {
-    expect(safeReadVersion("solc")).toBeNull();
+  it("returns the installed solc version in Phase 3 (now a dependency)", () => {
+    const v = safeReadVersion("solc");
+    expect(v).not.toBeNull();
+    expect(v).toMatch(/^\d+\.\d+\.\d+/);
   });
 
-  it("returns null for @openzeppelin/contracts in Phase 1 (not yet a dependency)", () => {
-    expect(safeReadVersion("@openzeppelin/contracts")).toBeNull();
+  it("returns the installed @openzeppelin/contracts version in Phase 3 (now a dependency)", () => {
+    const v = safeReadVersion("@openzeppelin/contracts");
+    expect(v).not.toBeNull();
+    expect(v).toMatch(/^\d+\.\d+\.\d+/);
   });
 
   it("returns the installed @openzeppelin/wizard version in Phase 2 (now a dependency)", () => {
@@ -37,10 +41,14 @@ describe("formatVersionLine", () => {
     expect(line).toMatch(/^smartc \d+\.\d+\.\d+ \(.+\)$/);
   });
 
-  it("reports the two Phase-3-gated deps as 'not bundled' in Phase 2", () => {
+  it("includes solc + @openzeppelin/contracts segments with their exact pinned versions in Phase 3 (UI-16 + SC-5)", () => {
     const line = formatVersionLine();
-    expect(line).toContain("solc not bundled");
-    expect(line).toContain("@openzeppelin/contracts not bundled");
+    // Plan 03-01 pinned solc@0.8.35 and @openzeppelin/contracts@5.6.1 (both exact).
+    // Drift = deliberate commit (same convention as wizard@0.10.8 lock above).
+    expect(line).toContain("solc 0.8.35");
+    expect(line).toContain("@openzeppelin/contracts 5.6.1");
+    expect(line).not.toContain("solc not bundled");
+    expect(line).not.toContain("@openzeppelin/contracts not bundled");
   });
 
   it("includes the @openzeppelin/wizard segment with its installed version (UI-16)", () => {
