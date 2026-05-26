@@ -107,6 +107,7 @@ describe("smartc CLI (e2e)", () => {
     expect(r.stderr).toContain("E_USAGE");
   }, 15_000);
 
+  // Filled in tests/cli.sc4.spec.ts — kept here as it.skip placeholder so the spawn suite stays free of @clack-prompts module-level mock hoisting (W5).
   it.skip("SC-4: overwrite prompt + --force (e2e deferred to Plan 02-05; unit coverage in tests/commands/create.spec.ts)", () => {});
 
   it("SC-5: errors are actionable — what/why/fix labels all present", () => {
