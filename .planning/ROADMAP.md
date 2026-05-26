@@ -70,10 +70,13 @@ Plans:
   3. When compile warns (but does not error), user sees the warnings and the file is still written
   4. User does not need to install OpenZeppelin contracts locally — imports resolve from the tool's bundled dependencies
   5. The pinned `solc` and `@openzeppelin/contracts` versions are visible somewhere user-facing (banner, `--version`, or doctor)
-**Plans**: TBD
+**Plans**: 4 plans in 4 waves
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Wave 0: install pinned deps, run probe, scaffold compiler skeleton + broken/warns fixtures
+- [ ] 03-02-PLAN.md — Wave 1: implement compileVerify + bundled-OZ resolver + unit/integration tests
+- [ ] 03-03-PLAN.md — Wave 2: splice into dispatcher + E2E happy/fail tests + version-line flip
+- [ ] 03-04-PLAN.md — Wave 3: src/compiler/README.md + ROADMAP/REQUIREMENTS finalization
 
 ### Phase 4: ERC-721 + ERC-1155 Templates
 **Goal**: User can scaffold NFT (ERC-721) and multi-token (ERC-1155) contracts through the same wizard, with both compile-verified — validating the plugin model is additive without core changes.
@@ -170,7 +173,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. CLI Foundation | 4/4 | Complete | 2026-05-17 |
 | 2. ERC-20 Canary Template | 5/5 | Complete | 2026-05-26 |
-| 3. Compile-Verify Safety Net | 0/TBD | Not started | - |
+| 3. Compile-Verify Safety Net | 0/4 | Not started | - |
 | 4. ERC-721 + ERC-1155 Templates | 0/TBD | Not started | - |
 | 5. DEPLOY.md Generation | 0/TBD | Not started | - |
 | 6. Doctor & Environment Probe | 0/TBD | Not started | - |
