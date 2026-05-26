@@ -13,7 +13,7 @@ SmartContract Creator ships a TypeScript/Node CLI that scaffolds compile-verifie
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: CLI Foundation** - Installable CLI shell with command surface, wizard runner, and verbosity modes
-- [ ] **Phase 2: ERC-20 Canary Template** - First template end-to-end via programmatic builder, proving the plugin architecture
+- [x] **Phase 2: ERC-20 Canary Template** - First template end-to-end via programmatic builder, proving the plugin architecture
 - [ ] **Phase 3: Compile-Verify Safety Net** - In-process Solidity compile gate; nothing un-compilable reaches disk
 - [ ] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
 - [ ] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
@@ -51,14 +51,14 @@ Plans:
   2. User can opt in to Mintable, Burnable, and Pausable independently
   3. When Mintable or Pausable is selected, user is asked to choose Ownable or AccessControl
   4. The generated `.sol` file matches OpenZeppelin Wizard output conventions (no syntax-corrupting template hacks)
-**Plans**: 5 plans in 4 waves
+**Plans**: 5 plans in 4 waves (all complete)
 
 Plans:
 - [x] 02-01-PLAN.md — Wave 0: spike (@openzeppelin/wizard probes), Template generic widening, error-code constants, opts.ts type contracts, spec skeletons
 - [x] 02-02-PLAN.md — Wave 1 (parallel with 02-03): validators, filename derivation, generate() wrapper + golden snapshot fixtures
 - [x] 02-03-PLAN.md — Wave 1 (parallel with 02-02): wizard.ts (seven-prompt sequence, cancelGuard, centralization warning)
 - [x] 02-04-PLAN.md — Wave 2: registerErc20Template factory, dispatcher .action() body, canary retirement, in-process command spec
-- [ ] 02-05-PLAN.md — Wave 3: SC-4 e2e fill-in, version-line @openzeppelin/wizard segment (UI-16), ROADMAP finalization
+- [x] 02-05-PLAN.md — Wave 3: SC-4 e2e fill-in, version-line @openzeppelin/wizard segment (UI-16), ROADMAP finalization
 
 ### Phase 3: Compile-Verify Safety Net
 **Goal**: User never receives a file that doesn't compile — the Solidity compile gate runs in-process before any source touches disk, against pinned OpenZeppelin and `solc` versions.
@@ -169,7 +169,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. CLI Foundation | 4/4 | Complete | 2026-05-17 |
-| 2. ERC-20 Canary Template | 4/5 | In Progress|  |
+| 2. ERC-20 Canary Template | 5/5 | Complete | 2026-05-26 |
 | 3. Compile-Verify Safety Net | 0/TBD | Not started | - |
 | 4. ERC-721 + ERC-1155 Templates | 0/TBD | Not started | - |
 | 5. DEPLOY.md Generation | 0/TBD | Not started | - |
