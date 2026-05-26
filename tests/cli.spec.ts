@@ -116,12 +116,17 @@ describe("smartc CLI (e2e)", () => {
     expect(r.stderr).toMatch(/Fix:/);
   }, 15_000);
 
-  it("--version prints the formatted version line with not-bundled markers", () => {
+  it("--version prints the formatted version line with not-bundled markers and the wizard segment (UI-16)", () => {
     const r = runCli(["-V"]);
     expect(r.status).toBe(0);
-    expect(r.stdout.trim()).toMatch(
-      /^smartc \d+\.\d+\.\d+ \(solc not bundled, @openzeppelin\/contracts not bundled\)$/
-    );
+    // Plan 02-05 widened the version line from Phase 1's two-segment shape to a
+    // three-segment shape with @openzeppelin/wizard. Per-segment toContain rather
+    // than an exact regex so a future fourth dep doesn't churn this test.
+    const line = r.stdout.trim();
+    expect(line).toMatch(/^smartc \d+\.\d+\.\d+ \(.+\)$/);
+    expect(line).toContain("solc not bundled");
+    expect(line).toContain("@openzeppelin/contracts not bundled");
+    expect(line).toContain("@openzeppelin/wizard 0.10.8");
   }, 15_000);
 
   it("bare invocation highlights 'Get started: smartc create' before help", () => {

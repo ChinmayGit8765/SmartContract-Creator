@@ -74,13 +74,18 @@ function readOwnVersion(): string {
 
 /** Formats the --version line.
  *  Phase 1: "smartc 0.1.0 (solc not bundled, @openzeppelin/contracts not bundled)"
- *  Phase 3 will swap to real versions automatically once those deps are installed.
+ *  Phase 2 (UI-16, D-08 override): adds a third "@openzeppelin/wizard <ver>" segment
+ *  now that Plan 01 installed the package. The dual-strategy safeReadVersion (Phase 1)
+ *  resolves the version with no further plumbing.
+ *  Phase 3 will swap solc + @openzeppelin/contracts to real versions automatically.
  */
 export function formatVersionLine(): string {
   const ownVer = readOwnVersion();
   const solc = safeReadVersion("solc");
   const oz = safeReadVersion("@openzeppelin/contracts");
+  const wiz = safeReadVersion("@openzeppelin/wizard");
   const solcStr = solc ? `solc ${solc}` : "solc not bundled";
   const ozStr = oz ? `@openzeppelin/contracts ${oz}` : "@openzeppelin/contracts not bundled";
-  return `smartc ${ownVer} (${solcStr}, ${ozStr})`;
+  const wizStr = wiz ? `@openzeppelin/wizard ${wiz}` : "@openzeppelin/wizard not bundled";
+  return `smartc ${ownVer} (${solcStr}, ${ozStr}, ${wizStr})`;
 }
