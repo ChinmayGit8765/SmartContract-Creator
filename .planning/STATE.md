@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 2 complete; pending Phase 3 discuss
-last_updated: "2026-05-26T16:40:00.000Z"
-last_activity: 2026-05-26 -- Phase 02 complete
+stopped_at: Phase 3 complete; pending Phase 4 discuss
+last_updated: "2026-05-27T00:38:00.000Z"
+last_activity: 2026-05-27 -- Phase 03 complete
 progress:
   total_phases: 9
-  completed_phases: 2
-  total_plans: 9
-  completed_plans: 9
-  percent: 22
+  completed_phases: 3
+  total_plans: 13
+  completed_plans: 13
+  percent: 33
 ---
 
 # Project State
@@ -21,35 +21,37 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 03 — compile-verify-safety-net
+**Current focus:** Phase 04 — erc-721-and-erc-1155-templates
 
 ## Current Position
 
-Phase: 03 (compile-verify-safety-net) — PENDING DISCUSS
+Phase: 04 (erc-721-and-erc-1155-templates) — PENDING DISCUSS
 Plan: (none yet)
-Status: Phase 02 complete; awaiting Phase 03 discuss
-Last activity: 2026-05-26 -- Phase 02 complete
+Status: Phase 03 complete; awaiting Phase 04 discuss
+Last activity: 2026-05-27 -- Phase 03 complete
 
-Progress: [█░░░░░░░░░] ~11% (4 of ~36 plans across roadmap)
+Progress: [███░░░░░░░] ~33% (13 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
-- Average duration: ~5min
-- Total execution time: ~21min
+- Total plans completed: 13
+- Average duration: ~30min
+- Total execution time: ~3.5h
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-cli-foundation | 4 | ~21min | ~5min |
+| 02-erc-20-canary-template | 5 | ~85min | ~17min |
+| 03-compile-verify-safety-net | 4 | ~170min | ~42min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (3min), 01-03 (1min), 01-02 (5min), 01-04 (~12min, includes orchestrator-completed Task 2)
-- Trend: —
+- Last 5 plans: 03-01 (75min, resumed Wave 0 probe + scaffold), 03-02 (45min, TDD RED→GREEN), 03-03 (40min, dispatcher splice + E2E), 03-04 (10min, README + finalization no-op)
+- Trend: stable; complex test layers dominate Phase 3 cost
 
 *Updated after each plan completion*
 
@@ -81,6 +83,16 @@ Recent decisions affecting current work:
 - 01-04: Commander 14 usage errors (excessArguments, unknownCommand, unknownOption) map to exit 2 in src/cli.ts per Unix convention; only --help / --version propagate commander's exit code (0). Commander's native default is exit 1 for usage errors — we override
 - 01-04: `parseAsync(args, { from: "user" })` expects user-facing positionals only (no node/program prefix) — important for in-process command unit tests
 - 01-04: createCommandStub option surface (`--template <id>`, `--out <path>`) is locked from Phase 1; Phase 2 replaces only the `.action()` body
+- 03-01: Pin `solc@0.8.35` + `@openzeppelin/contracts@5.6.1` exact (no caret) — golden-fixture stability, deterministic formatVersionLine, supply-chain reproducibility
+- 03-01: `ERR_COMPILE_FAILED = "E_COMPILE_FAILED"` added to errors.ts — stable error code from Phase 3 forward, never rename
+- 03-01/02: `evmVersion="cancun"` (NOT "paris" per RESEARCH suggestion) — Wave 0 probe found OZ 5.6.1 uses Cancun-only `mcopy` opcode; documented in source, README, summaries
+- 03-02: `await import("solc")` with `.default ?? mod` instead of `createRequire("solc")` — Vitest 4 doesn't intercept createRequire mocks; production behavior identical via Node ESM-CJS interop
+- 03-02: Per-call cache scope (D-05) for makeImportCallback — no module-level cache; fresh Map per compileVerify invocation; no cross-call leakage in tests
+- 03-02: Path-traversal guard uses `normalize(root) + path.sep` prefix check — defends against `/tmp/oz-root` prefix-matching `/tmp/oz-rootEXTRA` confusion attacks
+- 03-02: Diagnostic partition collapses solc severity "info" into the warning bucket — closed union `{"error","warning"}` for downstream consumers
+- 03-03: `chain !== "evm" && chain !== "solana"` refusal guard in create.ts — TemplateChain includes "any"; typecheck-required AND defense against registration inconsistency
+- 03-03: Compile gate runs BEFORE confirmOverwrite (D-07 ordering) — runWizard → generate → compileVerify → confirmOverwrite → writeFile; nothing un-compilable touches disk
+- 03-03: Test-only templates use registry clear+register seam (NOT @clack mock entanglement) — cleaner E2E surface; no dist spawn; all run via buildProgram().exitOverride().parseAsync()
 
 ### Pending Todos
 
@@ -88,13 +100,12 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 3 research flag: Confirm `solc` import-callback resolves `@openzeppelin/contracts/...` from bundled deps without user install — prototype at phase start
 - Phase 7 research flag: Anchor single-file compile mechanism (likely scratch workspace under the hood) and Windows compatibility — prototype at phase start
 - Phase 8 research flag: Default Ollama model recommendation — defer to phase-start benchmarking
 
 ## Session Continuity
 
-Last session: 2026-05-20T11:47:54.307Z
-Stopped at: Phase 2 plans verified (5 plans, 4 waves)
-Resume file: .planning/phases/02-erc-20-canary-template/02-01-PLAN.md
-Next plan: Phase 2 (ERC-20 canary template) — see ROADMAP.md. Phase 1 still pending verifier + roadmap/requirements updates + push.
+Last session: 2026-05-27T00:38:00.000Z
+Stopped at: Phase 3 complete; pending Phase 4 discuss
+Resume file: (none yet — Phase 4 discuss not started)
+Next plan: Phase 4 (ERC-721 + ERC-1155 templates) — see ROADMAP.md. Run `/gsd:discuss-phase 04` to begin.

@@ -58,11 +58,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Compile-Verify
 
-- [ ] **COMP-01**: Solidity contracts are compiled in-process via the `solc` npm package against a pinned `@openzeppelin/contracts` version
+- [x] **COMP-01**: Solidity contracts are compiled in-process via the `solc` npm package against a pinned `@openzeppelin/contracts` version
 - [ ] **COMP-02**: Solana contracts are compiled by shelling out to `anchor build` when Anchor is present on the user's machine
-- [ ] **COMP-03**: When compile fails, the generated file is NOT written to disk; the user sees the compile diagnostics
-- [ ] **COMP-04**: Compile warnings are surfaced to the user but do not block writing the file
-- [ ] **COMP-05**: The Solidity import callback resolves `@openzeppelin/contracts/...` imports from the tool's bundled dependencies (no user install required)
+- [x] **COMP-03**: When compile fails, the generated file is NOT written to disk; the user sees the compile diagnostics
+- [x] **COMP-04**: Compile warnings are surfaced to the user but do not block writing the file
+- [x] **COMP-05**: The Solidity import callback resolves `@openzeppelin/contracts/...` imports from the tool's bundled dependencies (no user install required)
 
 ### DEPLOY.md Generation
 
@@ -178,11 +178,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SPL-03 | Phase 7 | Pending |
 | SPL-04 | Phase 7 | Pending |
 | SPL-05 | Phase 7 | Pending |
-| COMP-01 | Phase 3 | Pending |
+| COMP-01 | Phase 3 | Complete |
 | COMP-02 | Phase 7 | Pending |
-| COMP-03 | Phase 3 | Pending |
-| COMP-04 | Phase 3 | Pending |
-| COMP-05 | Phase 3 | Pending |
+| COMP-03 | Phase 3 | Complete |
+| COMP-04 | Phase 3 | Complete |
+| COMP-05 | Phase 3 | Complete |
 | DEPLOY-01 | Phase 5 | Pending |
 | DEPLOY-02 | Phase 5 | Pending |
 | DEPLOY-03 | Phase 5 | Pending |
@@ -208,9 +208,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Cross-phase notes:**
 - `CLI-01` (npm install -g) is mapped to Phase 9 (Distribution) since cross-platform install verification is the bulk of the work; Phase 1 builds the `bin` entry so the local-link install works during development.
-- `COMP-02` (anchor build shell-out) is mapped to Phase 7 (SPL), where the Anchor adapter lives, alongside `SPL-05` graceful-degradation.
+- `COMP-02` (anchor build shell-out) is mapped to Phase 7 (SPL), where the Anchor adapter lives, alongside `SPL-05` graceful-degradation. Phase 3 ships the SEAM SHAPE (`compileVerify(source, "solana")` throws `E_NOT_IMPLEMENTED` with a Phase 7 pointer) so the dispatcher contract is already chain-agnostic.
 - `DEPLOY-05` (SPL deploy commands) is mapped to Phase 7 because the SPL DEPLOY.md generator only makes sense once the SPL template exists. Phase 5 (DEPLOY.md Generation) establishes the deploy-doc framework that Phase 7 plugs into.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-17 — Phase 1 complete: CLI-02..CLI-08 marked Complete (7 of 8 CLI requirements; CLI-01 remains Phase 9 scope)*
+*Last updated: 2026-05-27 — Phase 3 complete: COMP-01, COMP-03, COMP-04, COMP-05 marked Complete (4 of 5 COMP requirements; COMP-02 remains Phase 7 scope — seam ships in Phase 3, full implementation in Phase 7)*
