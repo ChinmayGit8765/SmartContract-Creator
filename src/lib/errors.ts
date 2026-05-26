@@ -7,6 +7,8 @@ export const ERR_UNKNOWN = "E_UNKNOWN" as const;
 // Phase 2 additions — stable from this commit forward; never rename or remove.
 export const ERR_WIZARD_CANCEL = "E_WIZARD_CANCEL" as const;
 export const ERR_INVALID_INPUT = "E_INVALID_INPUT" as const;
+// Phase 3 addition — thrown by src/compiler/index.ts; stable from this commit forward, never rename or remove.
+export const ERR_COMPILE_FAILED = "E_COMPILE_FAILED" as const;
 
 export interface CliErrorInit {
   code: string;
