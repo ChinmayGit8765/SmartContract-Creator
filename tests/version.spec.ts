@@ -19,20 +19,36 @@ describe("safeReadVersion", () => {
   it("returns null for @openzeppelin/contracts in Phase 1 (not yet a dependency)", () => {
     expect(safeReadVersion("@openzeppelin/contracts")).toBeNull();
   });
+
+  it("returns the installed @openzeppelin/wizard version in Phase 2 (now a dependency)", () => {
+    const v = safeReadVersion("@openzeppelin/wizard");
+    expect(v).not.toBeNull();
+    expect(v).toMatch(/^\d+\.\d+\.\d+/);
+  });
 });
 
 describe("formatVersionLine", () => {
-  it("matches the Phase 1 shape: smartc <ver> (solc..., @openzeppelin/contracts...)", () => {
+  // Plan 02-05 (UI-16, D-08 override): widened to allow a third parenthetical segment
+  // (@openzeppelin/wizard). Per-segment toContain assertions are preferred over a
+  // brittle exact regex so future dep additions don't churn this test (option (b)
+  // from the plan's <action> notes).
+  it("starts with `smartc <ver> (` and ends with `)`", () => {
     const line = formatVersionLine();
-    expect(line).toMatch(
-      /^smartc \d+\.\d+\.\d+ \(solc.*, @openzeppelin\/contracts.*\)$/,
-    );
+    expect(line).toMatch(/^smartc \d+\.\d+\.\d+ \(.+\)$/);
   });
 
-  it("reports both gated deps as 'not bundled' in Phase 1", () => {
+  it("reports the two Phase-3-gated deps as 'not bundled' in Phase 2", () => {
     const line = formatVersionLine();
     expect(line).toContain("solc not bundled");
     expect(line).toContain("@openzeppelin/contracts not bundled");
+  });
+
+  it("includes the @openzeppelin/wizard segment with its installed version (UI-16)", () => {
+    const line = formatVersionLine();
+    // Plan 01 pinned @openzeppelin/wizard@0.10.8 (exact). If this drifts, regenerate
+    // both this assertion and the snapshot fixtures in a deliberate commit.
+    expect(line).toContain("@openzeppelin/wizard 0.10.8");
+    expect(line).not.toContain("@openzeppelin/wizard not bundled");
   });
 
   it("includes our own package version (from package.json)", () => {
