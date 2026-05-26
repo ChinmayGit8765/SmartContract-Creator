@@ -1,61 +1,92 @@
 /** Import-callback factory for solc-js standard-JSON compilation.
  *
- *  Phase 3 Plan 01 (this file) ships the SKELETON: createRequire bridge,
- *  cache + ozRoot closure, type contract for the callback. The body
- *  returns `{ error: "Plan 02 not yet implemented" }` for every input
- *  so Plan 02 has a clean insertion point and tests fail loudly until
- *  the real resolver lands.
+ *  Resolver: Strategy 1 dual-pattern inherited from src/lib/version.ts:1-50.
+ *    `require.resolve("@openzeppelin/contracts/package.json")` returns smartc's
+ *    install-root copy of OZ regardless of user cwd (Pitfall 3 lock — proven
+ *    by scripts/probe-compile.mjs).
  *
  *  Pitfall 1 lock: the returned callback is SYNCHRONOUS (returns
- *  `{ contents } | { error }`, never a Promise). solc-js's import
- *  callback contract is sync — async return values break silently.
+ *  `{ contents } | { error }`, never a Promise). solc-js's import-callback
+ *  contract is sync; an async return value breaks silently.
  *
- *  Pitfall 3 lock: the resolver uses
- *  `require.resolve("@openzeppelin/contracts/package.json")` (Phase 1's
- *  proven dual-strategy pattern from src/lib/version.ts:18-50) so OZ
- *  resolves from smartc's install root regardless of user cwd.
+ *  CONTEXT D-05 lock: the cache is per-CALL, NOT module-level. Each
+ *  `makeImportCallback()` invocation creates a fresh `Map` + fresh `ozRoot`
+ *  — no cross-call leakage in tests, no stale state across compileVerify
+ *  invocations.
  *
- *  CONTEXT D-05 lock: cache is per-CALL, not module-level. New
- *  `compileVerify(...)` call → new `makeImportCallback()` invocation →
- *  new cache. No cross-call leakage in tests.
- *
- *  Plan 02 fills the body per the TODO insertion point below; see
- *  03-PATTERNS.md §src/compiler/imports.ts lines 79-133 + RESEARCH
- *  §Pattern 2 lines 274-325 for the full resolver + traversal-guard.
+ *  T-03-03 mitigation: every resolved path is `normalize`d and prefix-checked
+ *  against `normalize(ozRoot) + path.sep`. Adversarial inputs like
+ *  `@openzeppelin/contracts/../../etc/passwd` resolve to a path outside
+ *  ozRoot and are refused with a `"Path traversal blocked"` error string.
+ *  The + sep guard means `/tmp/oz-root` does NOT match `/tmp/oz-rootEXTRA`.
  */
 
 import { createRequire } from "node:module";
 import { readFileSync } from "node:fs";
-import { dirname, join, normalize } from "node:path";
+import { dirname, join, normalize, sep } from "node:path";
 
 const require = createRequire(import.meta.url);
 
-export function makeImportCallback(): (path: string) => { contents: string } | { error: string } {
-  // Resolved once per compile call — the OZ package root won't change mid-call.
+const OZ_PREFIX = "@openzeppelin/contracts/";
+
+export function makeImportCallback(): (
+  path: string,
+) => { contents: string } | { error: string } {
+  // Resolved lazily on first OZ hit; ozRoot won't change mid-call.
   let ozRoot: string | null = null;
   const cache = new Map<string, { contents: string }>();
 
-  // Suppress unused-symbol noise while the skeleton stands; Plan 02 wires these.
-  void ozRoot;
-  void cache;
-  void readFileSync;
-  void dirname;
-  void join;
-  void normalize;
-  void require;
+  function resolveOzRoot(): string {
+    if (ozRoot !== null) return ozRoot;
+    try {
+      const pjPath = require.resolve("@openzeppelin/contracts/package.json");
+      ozRoot = dirname(pjPath);
+      return ozRoot;
+    } catch (err) {
+      throw new Error(
+        `@openzeppelin/contracts not installed (${(err as Error).message})`,
+      );
+    }
+  }
 
-  return function importCallback(_path: string): { contents: string } | { error: string } {
-    // TODO(03-02): Replace this skeleton body with the full resolver.
-    //   1. Cache hit? return it.
-    //   2. _path.startsWith("@openzeppelin/contracts/") ?
-    //        a. Resolve ozRoot via require.resolve("@openzeppelin/contracts/package.json")
-    //           on first call; cache to local `ozRoot` (CONTEXT D-04 + D-05).
-    //        b. fullPath = normalize(join(ozRoot, subpath));
-    //           if (!fullPath.startsWith(normalize(ozRoot))) → return
-    //           { error: "Path traversal blocked: <path>" }; (T-03-03 mitigation).
-    //        c. readFileSync(fullPath, "utf8") → cache → return { contents }.
-    //   3. Unknown prefix → return { error: "Unknown import: <path>" }.
-    // See 03-PATTERNS.md §src/compiler/imports.ts lines 79-133 for the full pattern.
-    return { error: "Plan 02 not yet implemented" };
+  return function importCallback(
+    path: string,
+  ): { contents: string } | { error: string } {
+    // Cache lookup first — preserves reference-equality for repeat imports
+    // within a single compileVerify call (locked by the "caches" unit test).
+    const cached = cache.get(path);
+    if (cached !== undefined) return cached;
+
+    if (!path.startsWith(OZ_PREFIX)) {
+      return { error: `Unknown import: ${path}` };
+    }
+
+    let root: string;
+    try {
+      root = resolveOzRoot();
+    } catch (err) {
+      return { error: (err as Error).message };
+    }
+
+    const sub = path.slice(OZ_PREFIX.length);
+    const normRoot = normalize(root);
+    const fullPath = normalize(join(root, sub));
+
+    // Path-traversal guard (T-03-03). Append the OS separator before prefix
+    // check so e.g. `/tmp/oz-root` does NOT prefix-match `/tmp/oz-rootEXTRA`.
+    if (fullPath !== normRoot && !fullPath.startsWith(normRoot + sep)) {
+      return { error: `Path traversal blocked: ${path}` };
+    }
+
+    try {
+      const contents = readFileSync(fullPath, "utf8");
+      const entry = { contents };
+      cache.set(path, entry);
+      return entry;
+    } catch (err) {
+      return {
+        error: `Could not read ${path}: ${(err as Error).message}`,
+      };
+    }
   };
 }
