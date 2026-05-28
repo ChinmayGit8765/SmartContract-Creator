@@ -49,8 +49,10 @@ export function safeReadVersion(pkgName: string): string | null {
   return null;
 }
 
-/** Reads OUR OWN version from the nearest package.json. */
-function readOwnVersion(): string {
+/** Reads OUR OWN version from the nearest package.json.
+ *  Phase 5: exported so the DEPLOY.md header section reads smartc's version for
+ *  the provenance line (D-11). */
+export function readOwnVersion(): string {
   // Walk up from this file to find our package.json (name === "smartc").
   // From src/lib/version.ts in dev, that's two levels up; from dist/cli.js in
   // prod, it's one level up. Try a few levels to be safe.
