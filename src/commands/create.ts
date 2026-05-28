@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { Command, Option } from "commander";
@@ -7,9 +6,10 @@ import { makeColor } from "../lib/color.js";
 import { makeOutput } from "../lib/output.js";
 import { resolveNewbie } from "../lib/env.js";
 import { get as getTemplate } from "../registry/index.js";
-import { confirmOverwrite } from "../lib/prompt.js";
+import { confirmOverwriteMany } from "../lib/prompt.js";
 import { compileVerify } from "../compiler/index.js";
 import { safeReadVersion } from "../lib/version.js";
+import { generateDeployDoc, deployDocPath } from "../deploy/index.js";
 
 /** Phase 2 dispatcher for `smartc create --template <id>`.
  *
@@ -118,24 +118,41 @@ export function createCommand(): Command {
       );
     }
 
-    // 4. Resolve output path.
+    // 4. Resolve output path + derive the DEPLOY.md path (D-07/D-09 — only when the
+    //    template ships a deployMeta). The DEPLOY.md is a pure suffix-swap on the SAME
+    //    resolved .sol path (no new path.join — no traversal surface).
     const outPath = globalOpts.out ?? path.resolve(process.cwd(), filename);
+    const deployPath = tpl.deployMeta ? deployDocPath(outPath) : null;
 
-    // 5. Overwrite gate (Phase 1 contract — confirmOverwrite respects --force and throws CliError(E_FILE_EXISTS) on refusal).
-    if (existsSync(outPath)) {
-      await confirmOverwrite(outPath, { force: globalOpts.force });
+    // 5. Overwrite gate (D-08): check BOTH targets up front; prompt once listing all
+    //    existing files. Respects --force; throws CliError(E_FILE_EXISTS) on refusal.
+    await confirmOverwriteMany(deployPath ? [outPath, deployPath] : [outPath], {
+      force: globalOpts.force,
+    });
+
+    // 6. Write the .sol (D-10 — only reached after compile-verify above).
+    await writeFile(outPath, source, "utf8");
+    output.result(`Wrote ${outPath}`);
+
+    // 6b. Write the DEPLOY.md alongside it (D-09) when the template ships a deployMeta.
+    if (tpl.deployMeta && deployPath) {
+      const meta = tpl.deployMeta(opts);
+      const { content } = generateDeployDoc(meta);
+      await writeFile(deployPath, content, "utf8");
+      output.result(`Wrote ${deployPath}`);
     }
 
-    // 6. Write.
-    await writeFile(outPath, source, "utf8");
-
-    // 7. Surface result + newbie next steps (UI-05 locked copy).
-    output.result(`Wrote ${outPath}`);
+    // 7. Surface newbie next steps (UI-05 locked copy).
     const solcVer = safeReadVersion("solc") ?? "unknown";
     const ozVer = safeReadVersion("@openzeppelin/contracts") ?? "unknown";
     output.nextStep(
       `Compile-verified against solc ${solcVer} + @openzeppelin/contracts ${ozVer}.`,
     );
+    if (deployPath) {
+      output.nextStep(
+        `Read ${deployPath} for copy-pasteable deploy + verify commands.`,
+      );
+    }
     output.nextStep("Run 'smartc list-templates' to see other templates.");
   });
 

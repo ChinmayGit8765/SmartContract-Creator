@@ -172,6 +172,50 @@ describe("create dispatcher — compile-verify E2E", () => {
     // Sanity: safeReadVersion succeeded for both deps (no "unknown" fallback).
     expect(captured).not.toContain("solc unknown");
     expect(captured).not.toContain("@openzeppelin/contracts unknown");
+
+    // D-01/D-09/D-14: the DEPLOY.md is written alongside the .sol.
+    const deployPath = join(tmpDir, "MyToken.DEPLOY.md");
+    expect(existsSync(deployPath)).toBe(true);
+    const deployDoc = readFileSync(deployPath, "utf8");
+    expect(deployDoc).toContain("## Deploy via Hardhat");
+    expect(deployDoc).toContain("## Deploy via Foundry");
+    expect(deployDoc).toContain("## Deploy via Remix");
+    expect(deployDoc).toContain("## Verify on Etherscan");
+    expect(deployDoc).toContain("--broadcast");
+    expect(deployDoc).toContain("v0.8.35+commit.47b9dedd");
+    // stdout mentions the DEPLOY.md path + the nextStep references it.
+    expect(captured).toContain(`Wrote ${deployPath}`);
+    expect(captured).toContain("for copy-pasteable deploy + verify commands");
+  });
+
+  it("D-06/D-14: mintable+ownable erc20 writes a DEPLOY.md containing the critical centralization warning", async () => {
+    // name, symbol, premint (3 text) → mintable=true, burnable=false, pausable=false
+    // (3 confirm) → access select = "ownable".
+    textMock.mockResolvedValueOnce("MyToken");
+    textMock.mockResolvedValueOnce("MTK");
+    textMock.mockResolvedValueOnce("1000000");
+    confirmMock.mockResolvedValueOnce(true); // mintable
+    confirmMock.mockResolvedValueOnce(false); // burnable
+    confirmMock.mockResolvedValueOnce(false); // pausable
+    selectMock.mockResolvedValueOnce("ownable"); // access
+
+    const outPath = join(tmpDir, "MyToken.sol");
+    const deployPath = join(tmpDir, "MyToken.DEPLOY.md");
+    const program = buildProgram();
+    const captured = await captureStdio(async () => {
+      await program
+        .exitOverride()
+        .parseAsync(["create", "--template", "erc20", "--out", outPath], {
+          from: "user",
+        });
+    });
+    expect(existsSync(outPath)).toBe(true);
+    expect(existsSync(deployPath)).toBe(true);
+    const deployDoc = readFileSync(deployPath, "utf8");
+    // The DEPLOY.md discloses the mintable+ownable centralization risk (DEPLOY-06).
+    expect(deployDoc).toContain("a single key can mint unlimited tokens");
+    // The wizard surfaced the SAME critical warning (single-source / parity).
+    expect(captured).toContain("a single key can mint unlimited tokens");
   });
 
   it("happy path ERC-721 (no flags, no royalty) — file is compile-verified, written to disk, contains contract MyNFT, footer shows version line", async () => {
@@ -237,6 +281,8 @@ describe("create dispatcher — compile-verify E2E", () => {
     expect(existsSync(outPath)).toBe(true);
     // output.warn prefix from src/lib/output.ts:51 — emitted to stderr.
     expect(captured.toLowerCase()).toContain("warn:");
+    // D-09: a template WITHOUT deployMeta gets no DEPLOY.md (no error).
+    expect(existsSync(join(tmpDir, "Warns.DEPLOY.md"))).toBe(false);
   });
 
   it("--version line surfaces real pinned versions (SC-5 user-facing surface)", () => {
