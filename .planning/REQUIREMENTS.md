@@ -34,19 +34,19 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### ERC-721 (Solidity NFT)
 
-- [ ] **ERC721-01**: User can generate an ERC-721 contract with configurable name, symbol, and base URI
-- [ ] **ERC721-02**: User can opt in to Mintable, Enumerable, and Burnable
-- [ ] **ERC721-03**: User can opt in to EIP-2981 royalties with configurable recipient address and basis points (e.g., 250 = 2.5%)
-- [ ] **ERC721-04**: User can opt in to Pausable
-- [ ] **ERC721-05**: When Mintable or Pausable is selected, user picks access control style: Ownable or AccessControl
+- [x] **ERC721-01**: User can generate an ERC-721 contract with configurable name, symbol, and base URI
+- [x] **ERC721-02**: User can opt in to Mintable, Enumerable, and Burnable
+- [x] **ERC721-03**: User can opt in to EIP-2981 royalties with configurable recipient address and basis points (e.g., 250 = 2.5%)
+- [x] **ERC721-04**: User can opt in to Pausable
+- [x] **ERC721-05**: When Mintable or Pausable is selected, user picks access control style: Ownable or AccessControl
 
 ### ERC-1155 (Solidity multi-token)
 
-- [ ] **ERC1155-01**: User can generate an ERC-1155 contract with a configurable URI template
-- [ ] **ERC1155-02**: User can opt in to Mintable and Burnable
-- [ ] **ERC1155-03**: User can opt in to Supply tracking (total supply per token id)
-- [ ] **ERC1155-04**: User can opt in to Pausable
-- [ ] **ERC1155-05**: When Mintable or Pausable is selected, user picks access control style: Ownable or AccessControl
+- [x] **ERC1155-01**: User can generate an ERC-1155 contract with a configurable URI template
+- [x] **ERC1155-02**: User can opt in to Mintable and Burnable
+- [x] **ERC1155-03**: User can opt in to Supply tracking (total supply per token id)
+- [x] **ERC1155-04**: User can opt in to Pausable
+- [x] **ERC1155-05**: When Mintable or Pausable is selected, user picks access control style: Ownable or AccessControl
 
 ### SPL Token (Solana / Rust + Anchor)
 
@@ -163,16 +163,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ERC20-03 | Phase 2 | Pending |
 | ERC20-04 | Phase 2 | Pending |
 | ERC20-05 | Phase 2 | Pending |
-| ERC721-01 | Phase 4 | Pending |
-| ERC721-02 | Phase 4 | Pending |
-| ERC721-03 | Phase 4 | Pending |
-| ERC721-04 | Phase 4 | Pending |
-| ERC721-05 | Phase 4 | Pending |
-| ERC1155-01 | Phase 4 | Pending |
-| ERC1155-02 | Phase 4 | Pending |
-| ERC1155-03 | Phase 4 | Pending |
-| ERC1155-04 | Phase 4 | Pending |
-| ERC1155-05 | Phase 4 | Pending |
+| ERC721-01 | Phase 4 | Complete |
+| ERC721-02 | Phase 4 | Complete |
+| ERC721-03 | Phase 4 | Complete |
+| ERC721-04 | Phase 4 | Complete |
+| ERC721-05 | Phase 4 | Complete |
+| ERC1155-01 | Phase 4 | Complete |
+| ERC1155-02 | Phase 4 | Complete |
+| ERC1155-03 | Phase 4 | Complete |
+| ERC1155-04 | Phase 4 | Complete |
+| ERC1155-05 | Phase 4 | Complete |
 | SPL-01 | Phase 7 | Pending |
 | SPL-02 | Phase 7 | Pending |
 | SPL-03 | Phase 7 | Pending |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-27 — Phase 3 complete: COMP-01, COMP-03, COMP-04, COMP-05 marked Complete (4 of 5 COMP requirements; COMP-02 remains Phase 7 scope — seam ships in Phase 3, full implementation in Phase 7)*
+*Last updated: 2026-05-28 — Phase 4 complete: ERC721-01..05 + ERC1155-01..05 marked Complete (all 10 Phase 4 requirements; additive-only plugin model validated — only src/cli.ts +4 lines + create.ts E_USAGE copy changed as source)*

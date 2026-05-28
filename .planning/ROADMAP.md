@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: CLI Foundation** - Installable CLI shell with command surface, wizard runner, and verbosity modes
 - [x] **Phase 2: ERC-20 Canary Template** - First template end-to-end via programmatic builder, proving the plugin architecture
 - [x] **Phase 3: Compile-Verify Safety Net** - In-process Solidity compile gate; nothing un-compilable reaches disk
-- [ ] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
+- [x] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
 - [ ] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
 - [ ] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
 - [ ] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
@@ -88,13 +88,13 @@ Plans:
   3. User can generate an ERC-1155 with a configurable URI template and opt-in Mintable, Burnable, Supply tracking, and Pausable
   4. When Mintable or Pausable is selected on either template, the wizard asks for Ownable vs AccessControl
   5. All three Solidity templates (ERC-20, ERC-721, ERC-1155) pass compile-verify with their full option matrices
-**Plans**: 4 plans in 3 waves
+**Plans**: 4 plans in 3 waves (all complete)
 
 Plans:
-- [ ] 04-01-PLAN.md — Wave 0: royalty post-process (4-anchor bracket-counting walker) + 5 golden fixtures + E_USAGE copy update + registry test stub + royalty.spec.ts
-- [ ] 04-02-PLAN.md — Wave 1 (parallel with 04-03): ERC-721 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
-- [ ] 04-03-PLAN.md — Wave 1 (parallel with 04-02): ERC-1155 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
-- [ ] 04-04-PLAN.md — Wave 2: src/cli.ts boot wiring + flip registry it.skip → it + compile.integration.spec.ts describe.each refactor (+5 rows) + create.compile.spec.ts (+2 happy-path E2E cases)
+- [x] 04-01-PLAN.md — Wave 0: royalty post-process (4-anchor bracket-counting walker) + 5 golden fixtures + E_USAGE copy update + registry test stub + royalty.spec.ts
+- [x] 04-02-PLAN.md — Wave 1 (parallel with 04-03): ERC-721 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
+- [x] 04-03-PLAN.md — Wave 1 (parallel with 04-02): ERC-1155 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
+- [x] 04-04-PLAN.md — Wave 2: src/cli.ts boot wiring + flip registry it.skip → it + compile.integration.spec.ts describe.each refactor (+5 rows) + create.compile.spec.ts (+2 happy-path E2E cases)
 
 ### Phase 5: DEPLOY.md Generation
 **Goal**: User receives a deployment guide alongside every generated contract, with deploy commands for multiple toolchains, verification snippets, and centralization warnings derived from their option choices.
@@ -177,7 +177,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. CLI Foundation | 4/4 | Complete | 2026-05-17 |
 | 2. ERC-20 Canary Template | 5/5 | Complete | 2026-05-26 |
 | 3. Compile-Verify Safety Net | 4/4 | Complete | 2026-05-27 |
-| 4. ERC-721 + ERC-1155 Templates | 0/TBD | Not started | - |
+| 4. ERC-721 + ERC-1155 Templates | 4/4 | Complete | 2026-05-28 |
 | 5. DEPLOY.md Generation | 0/TBD | Not started | - |
 | 6. Doctor & Environment Probe | 0/TBD | Not started | - |
 | 7. SPL Token (Solana / Anchor) | 0/TBD | Not started | - |

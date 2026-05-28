@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 3 complete; pending Phase 4 discuss
-last_updated: "2026-05-27T00:38:00.000Z"
-last_activity: 2026-05-27 -- Phase 03 complete
+stopped_at: Phase 4 complete; pending Phase 5 discuss
+last_updated: "2026-05-28T00:00:00.000Z"
+last_activity: 2026-05-28 -- Phase 04 complete
 progress:
   total_phases: 9
-  completed_phases: 3
-  total_plans: 13
-  completed_plans: 13
-  percent: 33
+  completed_phases: 4
+  total_plans: 17
+  completed_plans: 17
+  percent: 44
 ---
 
 # Project State
@@ -21,24 +21,24 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 04 — erc-721-and-erc-1155-templates
+**Current focus:** Phase 05 — deploy-md-generation
 
 ## Current Position
 
-Phase: 04 (erc-721-and-erc-1155-templates) — PENDING DISCUSS
+Phase: 05 (deploy-md-generation) — PENDING DISCUSS
 Plan: (none yet)
-Status: Phase 03 complete; awaiting Phase 04 discuss
-Last activity: 2026-05-27 -- Phase 03 complete
+Status: Phase 04 complete; awaiting Phase 05 discuss
+Last activity: 2026-05-28 -- Phase 04 complete
 
-Progress: [███░░░░░░░] ~33% (13 of ~36 plans across roadmap)
+Progress: [████░░░░░░] ~44% (17 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 13
-- Average duration: ~30min
-- Total execution time: ~3.5h
+- Total plans completed: 17
+- Average duration: ~28min
+- Total execution time: ~5h
 
 **By Phase:**
 
@@ -47,11 +47,12 @@ Progress: [███░░░░░░░] ~33% (13 of ~36 plans across roadmap)
 | 01-cli-foundation | 4 | ~21min | ~5min |
 | 02-erc-20-canary-template | 5 | ~85min | ~17min |
 | 03-compile-verify-safety-net | 4 | ~170min | ~42min |
+| 04-erc-721-and-erc-1155-templates | 4 | ~123min | ~31min |
 
 **Recent Trend:**
 
-- Last 5 plans: 03-01 (75min, resumed Wave 0 probe + scaffold), 03-02 (45min, TDD RED→GREEN), 03-03 (40min, dispatcher splice + E2E), 03-04 (10min, README + finalization no-op)
-- Trend: stable; complex test layers dominate Phase 3 cost
+- Last 5 plans: 03-04 (10min, README + finalization no-op), 04-01 (80min, Wave 0 royalty walker + fixtures), 04-02 (14min, ERC-721 plugin), 04-03 (18min, ERC-1155 plugin), 04-04 (11min, Wave 2 boot wiring + integration/E2E)
+- Trend: Wave 0 dominates Phase 4 cost; parallel Wave 1 plugins landed fast
 
 *Updated after each plan completion*
 
@@ -93,6 +94,11 @@ Recent decisions affecting current work:
 - 03-03: `chain !== "evm" && chain !== "solana"` refusal guard in create.ts — TemplateChain includes "any"; typecheck-required AND defense against registration inconsistency
 - 03-03: Compile gate runs BEFORE confirmOverwrite (D-07 ordering) — runWizard → generate → compileVerify → confirmOverwrite → writeFile; nothing un-compilable touches disk
 - 03-03: Test-only templates use registry clear+register seam (NOT @clack mock entanglement) — cleaner E2E surface; no dist spawn; all run via buildProgram().exitOverride().parseAsync()
+- 04-01: EIP-2981 royalty delivered as a 4-anchor bracket-counting post-process (NOT a wizard option — @openzeppelin/wizard@0.10.8 has no royalty field) — the ONE Phase 4 deviation from the no-templating model; each anchor is a single targeted insertion
+- 04-01: Anchor 4 is dual-mode — 4a extends an existing supportsInterface override; 4b INJECTS one (override(ERC721, ERC2981)) when the wizard emits none. Corrects RESEARCH §Pitfall 4's no-op claim; the ERC721+ERC2981 diamond requires the explicit override to compile
+- 04-01: ERC-1155 generate passes `updatableUri:true` as a hardcoded literal (wizard default, not surfaced as a prompt) — matches wizard.openzeppelin.com byte-for-byte
+- 04-02/04-03: cancelGuard + conditional access prompt DUPLICATED inline per template (D-10) — duplication is the additive-model test; no shared-module extraction even with erc721+erc1155 as new consumers
+- 04-04: Additive-only model HELD — only `src/cli.ts` (+4 lines boot wiring) and the `src/commands/create.ts` E_USAGE copy changed as source; `src/compiler/`, `src/registry/`, `src/lib/`, `src/templates/erc20/` untouched. The plugin architecture is additive without core changes (the central Phase 4 validation)
 
 ### Pending Todos
 
@@ -105,7 +111,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-27T00:38:00.000Z
-Stopped at: Phase 3 complete; pending Phase 4 discuss
-Resume file: (none yet — Phase 4 discuss not started)
-Next plan: Phase 4 (ERC-721 + ERC-1155 templates) — see ROADMAP.md. Run `/gsd:discuss-phase 04` to begin.
+Last session: 2026-05-28T00:00:00.000Z
+Stopped at: Phase 4 complete; pending Phase 5 discuss
+Resume file: (none yet — Phase 5 discuss not started)
+Next plan: Phase 5 (DEPLOY.md Generation) — see ROADMAP.md. Run `/gsd:discuss-phase 05` to begin.
