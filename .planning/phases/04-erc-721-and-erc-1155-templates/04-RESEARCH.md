@@ -1113,24 +1113,24 @@ function primeErc1155HappyPathMocks(): void {
 | A9 | The `--out` override path takes priority over the per-template-derived filename. | Plugin Pattern | Very low — established at Phase 2 D-04 and verified at `src/commands/create.ts:122`. |
 | A10 | Bracket-counting walker is sufficient — no need to fall back to a Solidity parser. | Pattern 3 | Low — the constructor body is the deepest brace pair we ever need to find; nested braces (e.g., struct definitions inside a constructor body) are forbidden by Solidity. The walker is grammar-correct. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should the ERC-1155 bare-default snapshot pass `updatableUri:false` to suppress the wizard's auto-Ownable+setURI?**
+1. **RESOLVED: Should the ERC-1155 bare-default snapshot pass `updatableUri:false` to suppress the wizard's auto-Ownable+setURI?**
    - What we know: wizard default is `updatableUri:true`; wizard.openzeppelin.com surfaces this as a toggle but defaults it ON.
    - What's unclear: whether CONTEXT D-09 ("URI template input — wizard's `uri` option accepts a string with `{id}` placeholder") implies the prompt SHOULD surface `updatableUri` as its own prompt, or whether matching wizard defaults verbatim is the right choice.
    - **Recommendation:** Match wizard default (`updatableUri:true`) — bare-default snapshot includes `Ownable + setURI`. Surface in the centralization warnings (Pattern §Non-negotiable centralization warnings) that the owner can change the URI. Defer surfacing `updatableUri` as a separate prompt to v2 (REQUIREMENTS.md ERC1155-V2-02 already covers per-id overrides; v2 can also add the "freeze URI" toggle).
 
-2. **Should `filename.ts` be re-exported from `erc20` or cloned per template?**
+2. **RESOLVED: Should `filename.ts` be re-exported from `erc20` or cloned per template?**
    - What we know: CONTEXT D-10 says "duplicate, don't extract" for the conditional access-control prompt (additive-only test).
    - What's unclear: whether the filename utility falls under the same "duplicate" rule.
    - **Recommendation:** Re-export from `erc20` (one import line). The filename utility is a pure 6-line slug function, not a prompt sequence; the duplication rule is targeted at code that the wizard duplicates (prompts + warnings + copy), not utility libraries. Planner finalizes.
 
-3. **Should there be a wizard prompt for `uriStorage` on ERC-721?**
+3. **RESOLVED: Should there be a wizard prompt for `uriStorage` on ERC-721?**
    - What we know: REQUIREMENTS.md ERC721-02 lists only Mintable, Enumerable, Burnable; the wizard's `uriStorage` is an additional axis OZ supports.
    - What's unclear: whether to surface it (more UX complexity, more snapshot variants) or hide it (default OFF) to honor REQUIREMENTS.md scope.
    - **Recommendation:** Hide it. Default `uriStorage:false`. Surfacing it adds prompt surface area for a feature REQUIREMENTS didn't ask for. If a user reports demand, surface in v2. Tracked in `Erc721Opts.uriStorage: boolean` (reserved field) so adding the prompt later doesn't require a type change.
 
-4. **Wave structure — can ERC-721 and ERC-1155 ship in parallel?**
+4. **RESOLVED: Wave structure — can ERC-721 and ERC-1155 ship in parallel?**
    - What we know: CONTEXT decided "this phase has natural parallelism" and the file-set audit (Probe E above) confirms zero overlapping file edits between the two templates' implementations.
    - What's unclear: whether Wave 0 (royalty probe + fixture generation) must complete before BOTH templates start, or whether ERC-1155 can start immediately (it has no royalty dependency).
    - **Recommendation (planner):** Wave 0 = royalty probe + commit the 5 fixtures + the small E_USAGE copy update + the registry test extension; Wave 1 = ERC-721 (single agent) + ERC-1155 (parallel single agent); Wave 2 = compile integration spec extension + create.compile.spec.ts extension (these can be split between agents or combined). See §Validation Architecture below for the Nyquist mapping.
