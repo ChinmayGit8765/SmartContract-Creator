@@ -33,12 +33,14 @@ import type { Erc721RoyaltyOpts } from "./opts.js";
  *       constructor body's matching closing brace, located by bracket-counting
  *       (see `insertAtConstructorBodyEnd`). Tolerates an empty body `{}` and ANY
  *       constructor initializer/modifier chain.
- *    4. ERC2981 token — appended to the existing
- *       `function supportsInterface(bytes4 interfaceId) ... override(...)` list
- *       IF AND ONLY IF the wizard emitted such an override (i.e. when
- *       AccessControl/Enumerable/URIStorage are present). When the wizard emits
- *       no override (bare or Ownable-only), ANCHOR 4 IS A NO-OP and ERC2981
- *       provides its own `supportsInterface` via ERC165 inheritance.
+ *    4. `supportsInterface` override — dual-mode:
+ *       4a. When the wizard ALREADY emits an override (AccessControl/Enumerable/
+ *           URIStorage present), ERC2981 is appended to its `override(...)` list.
+ *       4b. When the wizard emits NO override (bare or Ownable-only), a fresh
+ *           `function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC2981)`
+ *           is injected — required because ERC721 and ERC2981 BOTH declare
+ *           supportsInterface, so the diamond will not compile without an
+ *           explicit override resolving both bases.
  *
  *  Opt-out invariant (CONTEXT D-06): when `opts.enabled === false`, returns the
  *  input `source` unchanged (reference identity). Pure function — no I/O, never
