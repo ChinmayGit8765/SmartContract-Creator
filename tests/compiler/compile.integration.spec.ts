@@ -12,26 +12,40 @@ import { compileVerify } from "../../src/compiler/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const BARE_DEFAULT = join(
-  __dirname,
-  "../fixtures/erc20/bare-default.sol",
-);
-const ALL_FLAGS_ON = join(__dirname, "../fixtures/erc20/all-flags-on.sol");
 const BROKEN = join(__dirname, "../fixtures/broken.sol");
 const WARNS = join(__dirname, "../fixtures/warns-no-error.sol");
 
-describe("compileVerify — integration with real solc + real OZ", () => {
-  it("bare-default fixture compiles clean (zero errors)", async () => {
-    const source = readFileSync(BARE_DEFAULT, "utf8");
-    const result = await compileVerify(source, "evm");
-    // Warnings may exist (deprecation notes from solc 0.8.31+); just assert no throw.
-    expect(Array.isArray(result.warnings)).toBe(true);
-  });
+// Phase 4 SC-5: every committed golden fixture (2 erc20 + 3 erc721 + 2 erc1155)
+// must compile clean through the unchanged Phase 3 gate. Paths relative to
+// tests/compiler/. readFileSync throws ENOENT if any fixture goes missing
+// (T-04-04-02), surfacing in CI before merge.
+const FIXTURES: ReadonlyArray<{ label: string; path: string }> = [
+  { label: "erc20 bare-default", path: "../fixtures/erc20/bare-default.sol" },
+  { label: "erc20 all-flags-on", path: "../fixtures/erc20/all-flags-on.sol" },
+  { label: "erc721 bare-default", path: "../fixtures/erc721/bare-default.sol" },
+  { label: "erc721 all-flags-on", path: "../fixtures/erc721/all-flags-on.sol" },
+  {
+    label: "erc721 all-flags-on-with-royalty",
+    path: "../fixtures/erc721/all-flags-on-with-royalty.sol",
+  },
+  {
+    label: "erc1155 bare-default",
+    path: "../fixtures/erc1155/bare-default.sol",
+  },
+  {
+    label: "erc1155 all-flags-on",
+    path: "../fixtures/erc1155/all-flags-on.sol",
+  },
+];
 
-  it("all-flags-on fixture compiles clean (zero errors)", async () => {
-    const source = readFileSync(ALL_FLAGS_ON, "utf8");
-    const result = await compileVerify(source, "evm");
-    expect(Array.isArray(result.warnings)).toBe(true);
+describe("compileVerify — integration with real solc + real OZ", () => {
+  describe.each(FIXTURES)("compileVerify — $label fixture", ({ path }) => {
+    it("compiles clean (zero errors)", async () => {
+      const source = readFileSync(join(__dirname, path), "utf8");
+      const result = await compileVerify(source, "evm");
+      // Warnings may exist (deprecation notes from solc 0.8.31+); just assert no throw.
+      expect(Array.isArray(result.warnings)).toBe(true);
+    });
   });
 
   it("broken.sol throws E_COMPILE_FAILED with formattedMessage in WHY", async () => {
