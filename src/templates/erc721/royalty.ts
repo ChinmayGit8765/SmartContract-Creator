@@ -87,15 +87,71 @@ export function injectRoyalty(source: string, opts: Erc721RoyaltyOpts): string {
     `    _setDefaultRoyalty(${opts.receiver}, ${opts.feeNumerator});\n`,
   );
 
-  // ANCHOR 4: supportsInterface override list — NO-OP when the wizard did not
-  // emit a `supportsInterface(...) override(...)` (bare / Ownable-only).
-  s = s.replace(
-    /(function\s+supportsInterface\(bytes4\s+interfaceId\)\s*[\s\S]*?override\()([^)]+)(\))/m,
-    (_m, head: string, list: string, close: string) =>
-      `${head}${list.trim()}, ERC2981${close}`,
-  );
+  // ANCHOR 4: supportsInterface override.
+  //
+  // Two sub-cases — the wizard either emits a supportsInterface override or it
+  // does not, and BOTH require action because adding ERC2981 to the `is` list
+  // (anchor 2) introduces a second base that declares `supportsInterface`:
+  //
+  //   4a. Override PRESENT (AccessControl / Enumerable / URIStorage in the parent
+  //       list): append `, ERC2981` to the existing `override(...)` list.
+  //   4b. Override ABSENT (bare ERC721, or Ownable-only): ERC721 and ERC2981 BOTH
+  //       declare `supportsInterface`, so Solidity requires the derived contract
+  //       to override it explicitly. We inject a minimal
+  //       `supportsInterface(...) override(ERC721, ERC2981)` before the contract's
+  //       closing brace.
+  //
+  // NOTE: this corrects RESEARCH §Pitfall 4's assumption that ERC2981's own
+  // ERC165-inherited supportsInterface is sufficient when no wizard override
+  // exists — it is NOT (the ERC721+ERC2981 diamond requires an explicit override,
+  // verified via the Phase 3 compile gate). See 04-01-SUMMARY.md Deviations.
+  const overrideRe =
+    /(function\s+supportsInterface\(bytes4\s+interfaceId\)\s*[\s\S]*?override\()([^)]+)(\))/m;
+  if (overrideRe.test(s)) {
+    // 4a — extend the existing override list.
+    s = s.replace(
+      overrideRe,
+      (_m, head: string, list: string, close: string) =>
+        `${head}${list.trim()}, ERC2981${close}`,
+    );
+  } else {
+    // 4b — inject a minimal supportsInterface override for the ERC721+ERC2981
+    // diamond, before the contract body's matching closing brace.
+    s = insertAtContractBodyEnd(
+      s,
+      "\n    function supportsInterface(bytes4 interfaceId)\n" +
+        "        public\n" +
+        "        view\n" +
+        "        override(ERC721, ERC2981)\n" +
+        "        returns (bool)\n" +
+        "    {\n" +
+        "        return super.supportsInterface(interfaceId);\n" +
+        "    }\n",
+    );
+  }
 
   return s;
+}
+
+/** Walks `source` finding the `contract <Name> is ... { ... }` declaration via
+ *  bracket counting and inserts `insertion` immediately before the contract
+ *  body's matching closing brace. Used by anchor 4b to add a missing
+ *  `supportsInterface` override. Returns source unchanged if no `contract`
+ *  declaration is found (defensive — never throws).
+ */
+function insertAtContractBodyEnd(source: string, insertion: string): string {
+  const m = /contract\s+\w+\s+is\s+[^{]+\{/.exec(source);
+  if (!m) return source;
+  const bodyOpen = m.index + m[0].length - 1; // index of the opening `{`
+  let bd = 1;
+  let j = bodyOpen + 1;
+  while (j < source.length && bd > 0) {
+    if (source[j] === "{") bd++;
+    else if (source[j] === "}") bd--;
+    j++;
+  }
+  const bodyClose = j - 1; // index of the contract's matching `}`
+  return source.slice(0, bodyClose) + insertion + source.slice(bodyClose);
 }
 
 /** Walks `source` finding `constructor(...) ... {body}` via bracket counting and
