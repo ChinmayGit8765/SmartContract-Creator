@@ -88,10 +88,13 @@ Plans:
   3. User can generate an ERC-1155 with a configurable URI template and opt-in Mintable, Burnable, Supply tracking, and Pausable
   4. When Mintable or Pausable is selected on either template, the wizard asks for Ownable vs AccessControl
   5. All three Solidity templates (ERC-20, ERC-721, ERC-1155) pass compile-verify with their full option matrices
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Wave 0: royalty post-process (4-anchor bracket-counting walker) + 5 golden fixtures + E_USAGE copy update + registry test stub + royalty.spec.ts
+- [ ] 04-02-PLAN.md — Wave 1 (parallel with 04-03): ERC-721 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
+- [ ] 04-03-PLAN.md — Wave 1 (parallel with 04-02): ERC-1155 plugin (index, wizard, generate, opts, validators, filename, README) + wizard/generate/validators specs
+- [ ] 04-04-PLAN.md — Wave 2: src/cli.ts boot wiring + flip registry it.skip → it + compile.integration.spec.ts describe.each refactor (+5 rows) + create.compile.spec.ts (+2 happy-path E2E cases)
 
 ### Phase 5: DEPLOY.md Generation
 **Goal**: User receives a deployment guide alongside every generated contract, with deploy commands for multiple toolchains, verification snippets, and centralization warnings derived from their option choices.
