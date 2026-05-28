@@ -22,6 +22,12 @@ const { clear, register } = await import("../../src/registry/index.js");
 const { registerErc20Template } = await import(
   "../../src/templates/erc20/index.js"
 );
+const { registerErc721Template } = await import(
+  "../../src/templates/erc721/index.js"
+);
+const { registerErc1155Template } = await import(
+  "../../src/templates/erc1155/index.js"
+);
 const { safeReadVersion, formatVersionLine } = await import(
   "../../src/lib/version.js"
 );
@@ -70,6 +76,33 @@ function primeHappyPathMocks(): void {
   confirmMock.mockResolvedValueOnce(false); // pausable
 }
 
+// ERC-721 happy path (no flags, no royalty): prompt order from plan 04-02
+// SUMMARY — name -> symbol -> baseUri -> mintable -> enumerable -> burnable ->
+// pausable -> royalty. No royalty pair (royalty=false), no access select
+// (mintable=pausable=false). 3 text + 5 confirm.
+function primeErc721HappyPathMocks(): void {
+  textMock.mockResolvedValueOnce("MyNFT");
+  textMock.mockResolvedValueOnce("MNFT");
+  textMock.mockResolvedValueOnce(""); // baseUri (empty)
+  confirmMock.mockResolvedValueOnce(false); // mintable
+  confirmMock.mockResolvedValueOnce(false); // enumerable
+  confirmMock.mockResolvedValueOnce(false); // burnable
+  confirmMock.mockResolvedValueOnce(false); // pausable
+  confirmMock.mockResolvedValueOnce(false); // royalty
+}
+
+// ERC-1155 happy path (no flags): prompt order from plan 04-03 SUMMARY —
+// name -> uri -> mintable -> burnable -> supply -> pausable. No access select
+// (mintable=pausable=false). 2 text + 4 confirm.
+function primeErc1155HappyPathMocks(): void {
+  textMock.mockResolvedValueOnce("MyMulti");
+  textMock.mockResolvedValueOnce("https://example.com/api/token/{id}.json");
+  confirmMock.mockResolvedValueOnce(false); // mintable
+  confirmMock.mockResolvedValueOnce(false); // burnable
+  confirmMock.mockResolvedValueOnce(false); // supply
+  confirmMock.mockResolvedValueOnce(false); // pausable
+}
+
 // Test-only template that returns the warns-no-error fixture. Used to prove
 // warning pass-through through the dispatcher without entangling the erc20
 // wizard mocks.
@@ -95,6 +128,8 @@ describe("create dispatcher — compile-verify E2E", () => {
   beforeEach(() => {
     clear();
     registerErc20Template();
+    registerErc721Template();
+    registerErc1155Template();
     textMock.mockReset();
     selectMock.mockReset();
     confirmMock.mockReset();
@@ -137,6 +172,46 @@ describe("create dispatcher — compile-verify E2E", () => {
     // Sanity: safeReadVersion succeeded for both deps (no "unknown" fallback).
     expect(captured).not.toContain("solc unknown");
     expect(captured).not.toContain("@openzeppelin/contracts unknown");
+  });
+
+  it("happy path ERC-721 (no flags, no royalty) — file is compile-verified, written to disk, contains contract MyNFT, footer shows version line", async () => {
+    primeErc721HappyPathMocks();
+    const outPath = join(tmpDir, "MyNFT.sol");
+    const program = buildProgram();
+    const captured = await captureStdio(async () => {
+      await program
+        .exitOverride()
+        .parseAsync(
+          ["create", "--template", "erc721", "--newbie", "--out", outPath],
+          { from: "user" },
+        );
+    });
+    expect(existsSync(outPath)).toBe(true);
+    const written = readFileSync(outPath, "utf8");
+    expect(written).toContain("contract MyNFT");
+    expect(captured).toContain(`Wrote ${outPath}`);
+    expect(captured).toContain("Compile-verified against solc");
+    expect(captured).toContain("@openzeppelin/contracts");
+  });
+
+  it("happy path ERC-1155 (no flags) — file is compile-verified, written to disk, contains contract MyMulti, footer shows version line", async () => {
+    primeErc1155HappyPathMocks();
+    const outPath = join(tmpDir, "MyMulti.sol");
+    const program = buildProgram();
+    const captured = await captureStdio(async () => {
+      await program
+        .exitOverride()
+        .parseAsync(
+          ["create", "--template", "erc1155", "--newbie", "--out", outPath],
+          { from: "user" },
+        );
+    });
+    expect(existsSync(outPath)).toBe(true);
+    const written = readFileSync(outPath, "utf8");
+    expect(written).toContain("contract MyMulti");
+    expect(captured).toContain(`Wrote ${outPath}`);
+    expect(captured).toContain("Compile-verified against solc");
+    expect(captured).toContain("@openzeppelin/contracts");
   });
 
   it("warning pass-through — register test-only template returning warns-no-error source; dispatcher writes file AND emits warning on stderr", async () => {
