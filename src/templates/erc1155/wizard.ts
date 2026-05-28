@@ -15,6 +15,8 @@
 import { text, select, confirm, isCancel } from "@clack/prompts";
 import { CliError, ERR_WIZARD_CANCEL } from "../../lib/errors.js";
 import { isSolidityIdentifier, isNonEmptyUri } from "./validators.js";
+import { centralizationWarnings } from "../../deploy/warnings.js";
+import type { DeployFlags } from "../../deploy/types.js";
 import type { Erc1155Opts, WizardIo } from "./opts.js";
 
 /** Wraps every @clack prompt return value. On cancel (Ctrl+C / ESC) throws
@@ -145,24 +147,22 @@ export async function runWizard(io: WizardIo): Promise<Erc1155Opts> {
 
   // Post-prompt centralization warnings (RESEARCH lines 697-715). `output.warn`
   // is the always-on critical channel (fires in default + newbie + --json).
-  if (mintable && access === "ownable") {
-    io.output.warn(
-      "Mintable + Ownable: a single key can mint unlimited quantities of any token id. " +
-        "Consider AccessControl (multi-role) or transferring ownership to a multisig before deploy.",
-    );
+  // D-03 hybrid refactor: sourced from the single-source centralizationWarnings();
+  // the wizard emits only the `critical` subset. The erc1155-uri-owner warning is
+  // critical, so it still fires on EVERY run (the wizard default updatableUri:true
+  // ships an owner-controlled setURI in every contract). Byte-identical to the
+  // pre-refactor literals — locked by wizard-parity.spec.ts.
+  const warnFlags: DeployFlags = {
+    mintable,
+    burnable,
+    pausable,
+    access: access === false ? "none" : access,
+    supply,
+    updatableUri: true,
+  };
+  for (const w of centralizationWarnings({ standard: "erc1155", flags: warnFlags })) {
+    if (w.severity === "critical") io.output.warn(w.body);
   }
-  if (pausable && access === "ownable") {
-    io.output.warn(
-      "Pausable + Ownable: a single key can halt all transfers across every token id. " +
-        "Consider AccessControl (multi-role) or a multisig owner.",
-    );
-  }
-  // Always-on: the wizard default `updatableUri:true` includes an owner-controlled
-  // setURI in EVERY generated contract, so this warning fires whenever the wizard completes.
-  io.output.warn(
-    "ERC-1155 default-URI setter is owner-controlled (wizard default `updatableUri:true`). " +
-      "The contract owner can change the URI template at any time. Use a multisig owner or freeze ownership before launch if metadata must be immutable.",
-  );
 
   return {
     name,

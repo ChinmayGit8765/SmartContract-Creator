@@ -14,6 +14,7 @@ import { register, get } from "../../registry/index.js";
 import type { Template } from "../../registry/types.js";
 import { runWizard } from "./wizard.js";
 import { generate } from "./generate.js";
+import { deployMetaErc1155 } from "./deployMeta.js";
 import type { Erc1155Opts } from "./opts.js";
 
 /** Registers the ERC-1155 multi-token template. Idempotent — safe to call multiple times.
@@ -30,6 +31,7 @@ export function registerErc1155Template(): void {
       "Multi-token (ERC-1155) on EVM chains. Opt-in Mintable/Burnable/Supply/Pausable.",
     runWizard,
     generate,
+    deployMeta: deployMetaErc1155,
   };
   // Cast at the registry boundary: TS function-parameter contravariance forbids
   // assigning Template<Erc1155Opts> to Template<unknown>, but the registry stores

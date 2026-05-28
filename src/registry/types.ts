@@ -1,4 +1,5 @@
 import type { Output } from "../lib/output.js";
+import type { DeployMeta } from "../deploy/types.js";
 
 export type TemplateStatus = "stub" | "alpha" | "stable";
 export type TemplateChain = "evm" | "solana" | "any";
@@ -17,4 +18,7 @@ export interface Template<TOpts = unknown> {
   readonly runWizard?: (io: { output: Output }) => Promise<TOpts>;
   /** Phase 2: optional pure generator. Takes opts → returns filename + source. */
   readonly generate?: (opts: TOpts) => { filename: string; source: string };
+  /** Phase 5: optional deploy-doc descriptor (D-01). Returns a normalized DeployMeta
+   *  the deploy generator reads to produce the DEPLOY.md. Additive — like runWizard/generate. */
+  readonly deployMeta?: (opts: TOpts) => DeployMeta;
 }

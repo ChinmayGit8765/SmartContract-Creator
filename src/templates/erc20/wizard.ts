@@ -11,6 +11,8 @@
 import { text, select, confirm, isCancel } from "@clack/prompts";
 import { CliError, ERR_WIZARD_CANCEL } from "../../lib/errors.js";
 import { isSolidityIdentifier, isAsciiSymbol, isNonNegativeDecimal } from "./validators.js";
+import { centralizationWarnings } from "../../deploy/warnings.js";
+import type { DeployFlags } from "../../deploy/types.js";
 import type { Erc20Opts, WizardIo } from "./opts.js";
 
 /** Wraps every @clack prompt return value. On cancel (Ctrl+C / ESC) throws
@@ -142,11 +144,18 @@ export async function runWizard(io: WizardIo): Promise<Erc20Opts> {
 
   // Post-prompt centralization warning (UI-02 / UI-14). `output.warn` is the
   // always-on critical channel (fires in default + newbie + --json).
-  if (mintable && access === "ownable") {
-    io.output.warn(
-      "Mintable + Ownable: a single key can mint unlimited tokens. " +
-        "Consider AccessControl (multi-role) or transferring ownership to a multisig before deploy.",
-    );
+  // D-03 hybrid refactor: warnings are sourced from the single-source
+  // centralizationWarnings(); the wizard emits only the `critical` subset, which
+  // is byte-identical to the pre-refactor literals (locked by wizard-parity.spec.ts).
+  const warnFlags: DeployFlags = {
+    mintable,
+    burnable,
+    pausable,
+    access: access === false ? "none" : access,
+    premintNonZero: premint !== "0" && premint !== "",
+  };
+  for (const w of centralizationWarnings({ standard: "erc20", flags: warnFlags })) {
+    if (w.severity === "critical") io.output.warn(w.body);
   }
 
   return {

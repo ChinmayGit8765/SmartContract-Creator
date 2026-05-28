@@ -12,6 +12,7 @@ import { register, get } from "../../registry/index.js";
 import type { Template } from "../../registry/types.js";
 import { runWizard } from "./wizard.js";
 import { generate } from "./generate.js";
+import { deployMetaErc721 } from "./deployMeta.js";
 import type { Erc721Opts } from "./opts.js";
 
 /** Registers the ERC-721 NFT template. Idempotent — safe to call multiple times.
@@ -28,6 +29,7 @@ export function registerErc721Template(): void {
       "Non-fungible token (ERC-721) on EVM chains. Opt-in Mintable/Enumerable/Burnable/Pausable + EIP-2981 royalty.",
     runWizard,
     generate,
+    deployMeta: deployMetaErc721,
   };
   // Cast at the registry boundary: TS function-parameter contravariance forbids
   // assigning Template<Erc721Opts> to Template<unknown>, but the registry stores

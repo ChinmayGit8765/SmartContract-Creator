@@ -24,6 +24,8 @@ import {
   isRoyaltyBps,
   isEthAddress,
 } from "./validators.js";
+import { centralizationWarnings } from "../../deploy/warnings.js";
+import type { DeployFlags } from "../../deploy/types.js";
 import type { Erc721Opts, WizardIo } from "./opts.js";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -216,23 +218,19 @@ export async function runWizard(io: WizardIo): Promise<Erc721Opts> {
 
   // Post-prompt centralization warnings (RESEARCH lines 670-694). `output.warn` is
   // the always-on critical channel (fires in default + newbie + --json). Byte-locked.
-  if (mintable && access === "ownable") {
-    io.output.warn(
-      "Mintable + Ownable: a single key can mint unlimited NFTs. " +
-        "Consider AccessControl (multi-role) or transferring ownership to a multisig before deploy.",
-    );
-  }
-  if (royalty.enabled && access === "ownable") {
-    io.output.warn(
-      "EIP-2981 + Ownable: the contract owner can change the royalty recipient at any time via _setDefaultRoyalty. " +
-        "Marketplaces may distrust royalty signals from single-key-controlled contracts.",
-    );
-  }
-  if (pausable && access === "ownable") {
-    io.output.warn(
-      "Pausable + Ownable: a single key can halt all NFT transfers. " +
-        "Consider AccessControl (multi-role) or a multisig owner.",
-    );
+  // D-03 hybrid refactor: sourced from the single-source centralizationWarnings();
+  // the wizard emits only the `critical` subset (byte-identical to the pre-refactor
+  // literals — locked by wizard-parity.spec.ts).
+  const warnFlags: DeployFlags = {
+    mintable,
+    burnable,
+    pausable,
+    access: access === false ? "none" : access,
+    enumerable,
+    royalty: royalty.enabled,
+  };
+  for (const w of centralizationWarnings({ standard: "erc721", flags: warnFlags })) {
+    if (w.severity === "critical") io.output.warn(w.body);
   }
 
   return {

@@ -13,6 +13,7 @@ import { register, get } from "../../registry/index.js";
 import type { Template } from "../../registry/types.js";
 import { runWizard } from "./wizard.js";
 import { generate } from "./generate.js";
+import { deployMetaErc20 } from "./deployMeta.js";
 import type { Erc20Opts } from "./opts.js";
 
 /** Registers the ERC-20 canary template. Idempotent — safe to call multiple times.
@@ -29,6 +30,7 @@ export function registerErc20Template(): void {
     description: "Fungible token (ERC-20) on EVM chains. Opt-in Mintable/Burnable/Pausable.",
     runWizard,
     generate,
+    deployMeta: deployMetaErc20,
   };
   // Cast at the registry boundary: TS function-parameter contravariance forbids
   // assigning Template<Erc20Opts> to Template<unknown>, but the registry stores
