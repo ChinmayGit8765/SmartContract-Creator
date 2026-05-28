@@ -55,8 +55,8 @@ export function createCommand(): Command {
       throw new CliError({
         code: ERR_USAGE,
         what: "Missing --template flag.",
-        why: "`smartc create` requires --template in Phase 2 (one template ships: erc20). Phase 4 introduces the interactive multi-template picker.",
-        fix: "Re-run with `--template erc20`. Run `smartc list-templates` to see available templates.",
+        why: "`smartc create` requires --template. Three templates ship in Phase 4: erc20, erc721, erc1155. The interactive multi-template picker is deferred.",
+        fix: "Re-run with `--template <erc20|erc721|erc1155>`. Run `smartc list-templates` to see available templates.",
         exitCode: 2,
       });
     }

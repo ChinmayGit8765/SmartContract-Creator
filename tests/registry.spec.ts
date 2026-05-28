@@ -2,6 +2,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { clear, get, list, register } from "../src/registry/index.js";
 import { registerStubTemplates } from "../src/registry/stub.js";
 import { registerErc20Template } from "../src/templates/erc20/index.js";
+// NOTE: erc721/index.ts and erc1155/index.ts do NOT exist yet — they land in
+// plans 04-02 and 04-03 (Wave 1). The three-template registration test below is
+// `it.skip` so this Wave 0 plan does not import barrels that haven't shipped.
+// Plan 04-04 (Wave 2) flips the skip to a live `it()` and adds these imports:
+//   import { registerErc721Template } from "../src/templates/erc721/index.js";
+//   import { registerErc1155Template } from "../src/templates/erc1155/index.js";
 import type { Template } from "../src/registry/types.js";
 
 const tplA: Template = {
@@ -93,5 +99,24 @@ describe("registry", () => {
     expect(tpl.status).toBe("alpha");
     expect(typeof (tpl as Record<string, unknown>).runWizard).toBe("function");
     expect(typeof (tpl as Record<string, unknown>).generate).toBe("function");
+  });
+
+  // TODO(plan 04-04): flip `it.skip` to `it()` once erc721/index.ts +
+  // erc1155/index.ts ship (Wave 1 plans 04-02 / 04-03). Then add the two imports
+  // documented at the top of this file and uncomment the registration calls
+  // below. This stub locks the three-template no-collision contract (CONTEXT
+  // D-15: the registry throws on duplicate id, so this asserts no collision).
+  it.skip("registers all three Phase 4 templates without collision and exposes runWizard/generate", () => {
+    registerErc20Template();
+    // registerErc721Template();   // uncomment in plan 04-04
+    // registerErc1155Template();  // uncomment in plan 04-04
+    expect(list()).toHaveLength(3);
+    for (const id of ["erc20", "erc721", "erc1155"]) {
+      const tpl = get(id)!;
+      expect(tpl.id).toBe(id);
+      expect(tpl.chain).toBe("evm");
+      expect(typeof (tpl as Record<string, unknown>).runWizard).toBe("function");
+      expect(typeof (tpl as Record<string, unknown>).generate).toBe("function");
+    }
   });
 });

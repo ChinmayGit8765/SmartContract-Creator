@@ -148,7 +148,8 @@ describe("create command (in-process dispatcher)", () => {
       await buildProgram().exitOverride().parseAsync(["create"], { from: "user" });
     } catch (e: unknown) {
       const err = e as { fix: string };
-      expect(err.fix).toContain("--template erc20");
+      // D-14 (plan 04-01): E_USAGE fix-copy now lists all three templates.
+      expect(err.fix).toContain("--template <erc20|erc721|erc1155>");
       expect(err.fix).toContain("smartc list-templates");
     }
     expect(textMock).not.toHaveBeenCalled();
