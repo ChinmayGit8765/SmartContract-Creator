@@ -9,6 +9,9 @@ export const ERR_WIZARD_CANCEL = "E_WIZARD_CANCEL" as const;
 export const ERR_INVALID_INPUT = "E_INVALID_INPUT" as const;
 // Phase 3 addition — thrown by src/compiler/index.ts; stable from this commit forward, never rename or remove.
 export const ERR_COMPILE_FAILED = "E_COMPILE_FAILED" as const;
+// Phase 8 additions — thrown by the AI add-feature flow; stable from this commit forward.
+export const ERR_AI_UNREACHABLE = "E_AI_UNREACHABLE" as const;
+export const ERR_AI_EMPTY = "E_AI_EMPTY" as const;
 
 export interface CliErrorInit {
   code: string;

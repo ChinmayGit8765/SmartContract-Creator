@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
 - [x] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
 - [x] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
-- [ ] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
+- [x] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
 - [ ] **Phase 9: Cross-Platform Distribution** - Public GitHub repo, npm-installable globally, CI verified on Windows/macOS/Linux
 
 ## Phase Details
@@ -152,10 +152,10 @@ Plans:
   3. AI-produced output is sandbox-compiled before being written; on compile failure the file is rolled back to its prior state with a clear message
   4. When Ollama is unreachable, the command fails gracefully with a message pointing to `smartc doctor` and the Ollama install docs
   5. User can override the Ollama model with `--model <name>` and there is a documented default
-**Plans**: TBD
+**Plans**: 1 plan in 1 wave (complete)
 
 Plans:
-- [ ] 08-01: TBD
+- [x] 08-01-PLAN.md — src/ai/ (Ollama client + prompt + diff) + `smartc add-feature --ai` command (reachability/generate/diff/confirm/sandbox-compile-rollback) + program wiring + tests
 
 ### Phase 9: Cross-Platform Distribution
 **Goal**: User on Windows, macOS, or Linux can run `npm install -g smartc` and have a working CLI, with a public GitHub repo backing it.
@@ -184,7 +184,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 5. DEPLOY.md Generation | 4/4 | Complete | 2026-05-29 |
 | 6. Doctor & Environment Probe | 1/1 | Complete | 2026-05-30 |
 | 7. SPL Token (Solana / Anchor) | 1/1 | Complete | 2026-05-31 |
-| 8. AI add-feature (Ollama) | 0/TBD | Not started | - |
+| 8. AI add-feature (Ollama) | 1/1 | Complete | 2026-06-01 |
 | 9. Cross-Platform Distribution | 0/TBD | Not started | - |
 
 ---

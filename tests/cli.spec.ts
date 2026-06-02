@@ -41,6 +41,7 @@ describe("smartc CLI (e2e)", () => {
     expect(r.stdout).toContain("create");
     expect(r.stdout).toContain("list-templates");
     expect(r.stdout).toContain("doctor");
+    expect(r.stdout).toContain("add-feature");
     expect(r.stdout).toContain("--newbie");
     expect(r.stdout).toContain("--verbose");
     expect(r.stdout).toContain("--force");

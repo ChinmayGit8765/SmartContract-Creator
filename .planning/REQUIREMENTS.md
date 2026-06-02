@@ -77,12 +77,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### AI Customization (add-feature)
 
-- [ ] **AI-01**: User can run `smartc add-feature --ai --file X.sol "<description>"` to patch custom logic into an existing generated file
-- [ ] **AI-02**: The AI provider connects to a local Ollama daemon via HTTP
-- [ ] **AI-03**: AI output is sandbox-compiled before being written to disk; the file is rolled back to its prior state on compile failure
-- [ ] **AI-04**: User sees a diff preview and must confirm before changes are applied
-- [ ] **AI-05**: When Ollama is unreachable, the tool fails gracefully with a clear message pointing to `smartc doctor` and Ollama install docs
-- [ ] **AI-06**: User can specify the Ollama model via `--model <name>` (with a documented default)
+- [x] **AI-01**: User can run `smartc add-feature --ai --file X.sol "<description>"` to patch custom logic into an existing generated file
+- [x] **AI-02**: The AI provider connects to a local Ollama daemon via HTTP
+- [x] **AI-03**: AI output is sandbox-compiled before being written to disk; the file is rolled back to its prior state on compile failure
+- [x] **AI-04**: User sees a diff preview and must confirm before changes are applied
+- [x] **AI-05**: When Ollama is unreachable, the tool fails gracefully with a clear message pointing to `smartc doctor` and Ollama install docs
+- [x] **AI-06**: User can specify the Ollama model via `--model <name>` (with a documented default)
 
 ### Distribution
 
@@ -191,12 +191,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEPLOY-06 | Phase 5 | Complete |
 | DEPLOY-07 | Phase 5 | Complete |
 | DEPLOY-08 | Phase 5 | Complete |
-| AI-01 | Phase 8 | Pending |
-| AI-02 | Phase 8 | Pending |
-| AI-03 | Phase 8 | Pending |
-| AI-04 | Phase 8 | Pending |
-| AI-05 | Phase 8 | Pending |
-| AI-06 | Phase 8 | Pending |
+| AI-01 | Phase 8 | Complete |
+| AI-02 | Phase 8 | Complete |
+| AI-03 | Phase 8 | Complete |
+| AI-04 | Phase 8 | Complete |
+| AI-05 | Phase 8 | Complete |
+| AI-06 | Phase 8 | Complete |
 | DIST-01 | Phase 9 | Pending |
 | DIST-02 | Phase 9 | Pending |
 | DIST-03 | Phase 9 | Pending |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-31 — Phase 7 complete: SPL-01..05 + COMP-02 + DEPLOY-05 marked Complete (SPL token template, anchor-build adapter with graceful degradation, Solana DEPLOY sections). Remaining Pending: AI-01..06 (Phase 8), CLI-01 + DIST-01..03 (Phase 9). (ERC20-01..05 + COMP-01 shipped in Phases 2-3 but their checkboxes/traceability were never flipped — pre-existing bookkeeping gap, left untouched to stay in scope.)*
+*Last updated: 2026-06-01 — Phase 8 complete: AI-01..06 marked Complete (local-Ollama add-feature with diff preview, confirm, and sandbox-compile rollback). Remaining Pending: CLI-01 + DIST-01..03 (Phase 9 — Distribution). (ERC20-01..05 + COMP-01 shipped in Phases 2-3 but their checkboxes/traceability were never flipped — pre-existing bookkeeping gap, left untouched to stay in scope.)*

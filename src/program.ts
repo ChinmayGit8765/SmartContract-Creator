@@ -4,6 +4,7 @@ import { makeColor } from "./lib/color.js";
 import { listTemplatesCommand } from "./commands/list-templates.js";
 import { createCommand } from "./commands/create.js";
 import { doctorCommand } from "./commands/doctor.js";
+import { addFeatureCommand } from "./commands/add-feature.js";
 
 /** Builds the smartc commander program tree.
  *  Returns the unparsed Command — caller controls parseAsync / exitOverride.
@@ -34,6 +35,7 @@ export function buildProgram(): Command {
   program.addCommand(createCommand());
   program.addCommand(listTemplatesCommand());
   program.addCommand(doctorCommand());
+  program.addCommand(addFeatureCommand());
 
   return program;
 }
