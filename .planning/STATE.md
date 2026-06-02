@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 4 complete; pending Phase 5 discuss
-last_updated: "2026-05-28T00:00:00.000Z"
-last_activity: 2026-05-28 -- Phase 04 complete
+stopped_at: Phase 5 complete; Phase 6 (doctor) next
+last_updated: "2026-05-29T00:00:00.000Z"
+last_activity: 2026-05-29 -- Phase 05 complete
 progress:
   total_phases: 9
-  completed_phases: 4
-  total_plans: 17
-  completed_plans: 17
-  percent: 44
+  completed_phases: 5
+  total_plans: 21
+  completed_plans: 21
+  percent: 56
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 05 — deploy-md-generation
+**Current focus:** Phase 06 — doctor & environment probe
 
 ## Current Position
 
-Phase: 05 (deploy-md-generation) — PENDING DISCUSS
+Phase: 06 (doctor) — PENDING DISCUSS
 Plan: (none yet)
-Status: Phase 04 complete; awaiting Phase 05 discuss
-Last activity: 2026-05-28 -- Phase 04 complete
+Status: Phase 05 complete; Phase 06 next
+Last activity: 2026-05-29 -- Phase 05 complete
 
-Progress: [████░░░░░░] ~44% (17 of ~36 plans across roadmap)
+Progress: [█████░░░░░] ~56% (21 of ~36 plans across roadmap)
 
 ## Performance Metrics
 
@@ -111,7 +111,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-28T00:00:00.000Z
-Stopped at: Phase 4 complete; pending Phase 5 discuss
-Resume file: (none yet — Phase 5 discuss not started)
-Next plan: Phase 5 (DEPLOY.md Generation) — see ROADMAP.md. Run `/gsd:discuss-phase 05` to begin.
+Last session: 2026-05-29T00:00:00.000Z
+Stopped at: Phase 5 complete; Phase 6 (doctor) next
+Resume file: (none yet — Phase 6 discuss not started)
+Next plan: Phase 6 (Doctor & Environment Probe) — see ROADMAP.md.

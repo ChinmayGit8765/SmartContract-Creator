@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: ERC-20 Canary Template** - First template end-to-end via programmatic builder, proving the plugin architecture
 - [x] **Phase 3: Compile-Verify Safety Net** - In-process Solidity compile gate; nothing un-compilable reaches disk
 - [x] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
-- [ ] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
+- [x] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
 - [ ] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
 - [ ] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
 - [ ] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
@@ -106,13 +106,13 @@ Plans:
   3. DEPLOY.md auto-surfaces centralization warnings specific to the user's option combination (e.g., Ownable + Mintable produces the unlimited-mint warning)
   4. DEPLOY.md includes Etherscan/Solscan verification command snippets and a pre-deploy safety checklist
   5. SPL DEPLOY.md (populated in Phase 7) includes `spl-token` CLI + Anchor deploy commands for Solana devnet and mainnet-beta
-**Plans**: 4 plans in 4 waves
+**Plans**: 4 plans in 4 waves (all complete)
 
 Plans:
-- [ ] 05-01-PLAN.md — Wave 0: DeployMeta types + fixture-locked ctor builders + single-source centralizationWarnings + readOwnVersion export
-- [ ] 05-02-PLAN.md — Wave 1: 8 section renderers + chain-keyed registry + generateDeployDoc assembler + 4 golden DEPLOY.md fixtures
-- [ ] 05-03-PLAN.md — Wave 2: deployMeta? interface + 3 per-template mappings + D-03 wizard refactor + confirmOverwriteMany + create.ts wiring + E2E
-- [ ] 05-04-PLAN.md — Wave 3: src/deploy/README.md + ROADMAP/REQUIREMENTS finalization
+- [x] 05-01-PLAN.md — Wave 0: DeployMeta types + fixture-locked ctor builders + single-source centralizationWarnings + readOwnVersion export
+- [x] 05-02-PLAN.md — Wave 1: 8 section renderers + chain-keyed registry + generateDeployDoc assembler + 4 golden DEPLOY.md fixtures
+- [x] 05-03-PLAN.md — Wave 2: deployMeta? interface + 3 per-template mappings + D-03 wizard refactor + confirmOverwriteMany + create.ts wiring + E2E
+- [x] 05-04-PLAN.md — Wave 3: src/deploy/README.md + ROADMAP/REQUIREMENTS finalization
 
 ### Phase 6: Doctor & Environment Probe
 **Goal**: User can run `smartc doctor` to see exactly which toolchains are installed and at what versions, before hitting any phase that depends on them.
@@ -181,7 +181,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 2. ERC-20 Canary Template | 5/5 | Complete | 2026-05-26 |
 | 3. Compile-Verify Safety Net | 4/4 | Complete | 2026-05-27 |
 | 4. ERC-721 + ERC-1155 Templates | 4/4 | Complete | 2026-05-28 |
-| 5. DEPLOY.md Generation | 0/4 | Planned | - |
+| 5. DEPLOY.md Generation | 4/4 | Complete | 2026-05-29 |
 | 6. Doctor & Environment Probe | 0/TBD | Not started | - |
 | 7. SPL Token (Solana / Anchor) | 0/TBD | Not started | - |
 | 8. AI add-feature (Ollama) | 0/TBD | Not started | - |

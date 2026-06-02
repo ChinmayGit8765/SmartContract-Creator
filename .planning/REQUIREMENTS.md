@@ -66,14 +66,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### DEPLOY.md Generation
 
-- [ ] **DEPLOY-01**: A DEPLOY.md is generated alongside every contract, named to match the contract file
-- [ ] **DEPLOY-02**: DEPLOY.md for EVM templates includes step-by-step Hardhat deploy commands
-- [ ] **DEPLOY-03**: DEPLOY.md for EVM templates includes step-by-step Foundry (`forge`) deploy commands
-- [ ] **DEPLOY-04**: DEPLOY.md for EVM templates includes an "Open in Remix" one-liner for the absolute simplest deploy path
+- [x] **DEPLOY-01**: A DEPLOY.md is generated alongside every contract, named to match the contract file
+- [x] **DEPLOY-02**: DEPLOY.md for EVM templates includes step-by-step Hardhat deploy commands
+- [x] **DEPLOY-03**: DEPLOY.md for EVM templates includes step-by-step Foundry (`forge`) deploy commands
+- [x] **DEPLOY-04**: DEPLOY.md for EVM templates includes an "Open in Remix" one-liner for the absolute simplest deploy path
 - [ ] **DEPLOY-05**: DEPLOY.md for SPL includes `spl-token` CLI + Anchor deploy commands for Solana devnet and mainnet-beta
-- [ ] **DEPLOY-06**: DEPLOY.md auto-discloses centralization warnings based on the user's option combination (e.g., Ownable + Mintable produces a "single key can mint unlimited tokens" warning)
-- [ ] **DEPLOY-07**: DEPLOY.md includes copy-pasteable Etherscan/Solscan verification command snippets
-- [ ] **DEPLOY-08**: DEPLOY.md includes a pre-deploy safety checklist (review owner address, set up multisig, test on testnet, etc.)
+- [x] **DEPLOY-06**: DEPLOY.md auto-discloses centralization warnings based on the user's option combination (e.g., Ownable + Mintable produces a "single key can mint unlimited tokens" warning)
+- [x] **DEPLOY-07**: DEPLOY.md includes copy-pasteable Etherscan/Solscan verification command snippets
+- [x] **DEPLOY-08**: DEPLOY.md includes a pre-deploy safety checklist (review owner address, set up multisig, test on testnet, etc.)
 
 ### AI Customization (add-feature)
 
@@ -183,14 +183,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-03 | Phase 3 | Complete |
 | COMP-04 | Phase 3 | Complete |
 | COMP-05 | Phase 3 | Complete |
-| DEPLOY-01 | Phase 5 | Pending |
-| DEPLOY-02 | Phase 5 | Pending |
-| DEPLOY-03 | Phase 5 | Pending |
-| DEPLOY-04 | Phase 5 | Pending |
+| DEPLOY-01 | Phase 5 | Complete |
+| DEPLOY-02 | Phase 5 | Complete |
+| DEPLOY-03 | Phase 5 | Complete |
+| DEPLOY-04 | Phase 5 | Complete |
 | DEPLOY-05 | Phase 7 | Pending |
-| DEPLOY-06 | Phase 5 | Pending |
-| DEPLOY-07 | Phase 5 | Pending |
-| DEPLOY-08 | Phase 5 | Pending |
+| DEPLOY-06 | Phase 5 | Complete |
+| DEPLOY-07 | Phase 5 | Complete |
+| DEPLOY-08 | Phase 5 | Complete |
 | AI-01 | Phase 8 | Pending |
 | AI-02 | Phase 8 | Pending |
 | AI-03 | Phase 8 | Pending |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-28 — Phase 4 complete: ERC721-01..05 + ERC1155-01..05 marked Complete (all 10 Phase 4 requirements; additive-only plugin model validated — only src/cli.ts +4 lines + create.ts E_USAGE copy changed as source)*
+*Last updated: 2026-05-29 — Phase 5 complete: DEPLOY-01/02/03/04/06/07/08 marked Complete (deploy-doc framework shipped). DEPLOY-05 (SPL deploy commands) stays Pending — it is carved out to Phase 7, where the SPL template and its `chain:"solana"` section renderers land on the chain-keyed registry seam built in Phase 5.*
