@@ -117,6 +117,41 @@ export function centralizationWarnings({
     });
   }
 
+  if (standard === "spl") {
+    // Solana authority footguns (SPL-02 / SPL-03). The wizard emits the critical
+    // subset byte-identical to these bodies (tests/deploy/wizard-parity.spec.ts).
+    if (flags.mintAuthorityRetained) {
+      out.push({
+        id: "spl-mint-authority-retained",
+        severity: "critical",
+        title: "Mint authority retained",
+        body:
+          "Mint authority retained: whoever holds the mint authority can mint unlimited new tokens, inflating supply at will. " +
+          "Revoke it (choose null) for a fixed, trustless supply, or transfer it to a multisig before launch.",
+      });
+    }
+    if (flags.freezeAuthorityRetained) {
+      out.push({
+        id: "spl-freeze-authority-retained",
+        severity: "critical",
+        title: "Freeze authority retained",
+        body:
+          "Freeze authority retained: the authority holder can freeze any holder's token account, blocking their transfers. " +
+          "Choose null if you never need to freeze accounts — it cannot be added back after the mint is created.",
+      });
+    }
+    if (flags.metadata) {
+      out.push({
+        id: "spl-metadata-update-authority",
+        severity: "info",
+        title: "Metadata update authority",
+        body:
+          "Metaplex metadata is created as mutable with the deployer as update authority — name/symbol/URI can be changed later. " +
+          "Set the metadata immutable or hand the update authority to a multisig once the token details are final.",
+      });
+    }
+  }
+
   if (flags.access === "roles" && (flags.mintable || flags.pausable)) {
     // NEW (DEPLOY.md only — info severity, NOT emitted by the wizard).
     out.push({

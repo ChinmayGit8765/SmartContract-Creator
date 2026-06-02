@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
 - [x] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
 - [x] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
-- [ ] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
+- [x] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
 - [ ] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
 - [ ] **Phase 9: Cross-Platform Distribution** - Public GitHub repo, npm-installable globally, CI verified on Windows/macOS/Linux
 
@@ -137,10 +137,10 @@ Plans:
   3. User can opt in to Metaplex metadata so wallets display name/symbol/image
   4. When Anchor is installed, the SPL output is compile-verified via `anchor build` before being written
   5. When Anchor is missing, the SPL output is still written and the user sees a clear warning that compile-verify was skipped, with a pointer to `smartc doctor`
-**Plans**: TBD
+**Plans**: 1 plan in 1 wave (complete)
 
 Plans:
-- [ ] 07-01: TBD
+- [x] 07-01-PLAN.md — SPL plugin (wizard/generate/deployMeta) + Anchor lib.rs generator + compileVerifySolana (anchor-build/skip) + chain:"solana" DEPLOY sections + create.ts wiring + tests
 
 ### Phase 8: AI add-feature (Ollama)
 **Goal**: User can patch custom logic into an existing generated contract via a local Ollama model, with the safety net rolling back any change that doesn't compile.
@@ -183,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 4. ERC-721 + ERC-1155 Templates | 4/4 | Complete | 2026-05-28 |
 | 5. DEPLOY.md Generation | 4/4 | Complete | 2026-05-29 |
 | 6. Doctor & Environment Probe | 1/1 | Complete | 2026-05-30 |
-| 7. SPL Token (Solana / Anchor) | 0/TBD | Not started | - |
+| 7. SPL Token (Solana / Anchor) | 1/1 | Complete | 2026-05-31 |
 | 8. AI add-feature (Ollama) | 0/TBD | Not started | - |
 | 9. Cross-Platform Distribution | 0/TBD | Not started | - |
 

@@ -224,9 +224,10 @@ describe("create command (in-process dispatcher)", () => {
     // Marker consumed: zero occurrences of the Phase 2 placeholder.
     const markerMatches = source.match(/PHASE 3 SPLICE POINT/g) ?? [];
     expect(markerMatches.length).toBe(0);
-    // compileVerify wired with the locked signature (source, tpl.chain).
+    // compileVerify wired with the locked (source, tpl.chain) prefix. Phase 7
+    // added an optional third options arg ({ programName }), so allow `,` or `)`.
     const callMatches =
-      source.match(/compileVerify\(source,\s*tpl\.chain\)/g) ?? [];
+      source.match(/compileVerify\(source,\s*tpl\.chain[,)]/g) ?? [];
     expect(callMatches.length).toBeGreaterThanOrEqual(1);
   });
 });

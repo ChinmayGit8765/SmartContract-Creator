@@ -1,8 +1,9 @@
 /** compileVerify — the Phase 3 compile gate seam.
  *
- *  Phase 3 Plan 02 (this file) ships the FULL public entry. The
- *  `chain === "solana"` branch is FINAL (locked per CONTEXT D-06): it
- *  throws CliError(ERR_NOT_IMPLEMENTED) with a Phase 7 pointer.
+ *  Phase 3 Plan 02 shipped the EVM entry; Phase 7 filled the
+ *  `chain === "solana"` branch — it now delegates to compileVerifySolana
+ *  (anchor-build adapter): skipped:true when anchor is absent (SPL-05),
+ *  or throws CliError(ERR_COMPILE_FAILED) on a build failure.
  *
  *  The `chain === "evm"` branch wraps solc-js's standard-JSON compile:
  *    1. Build StandardJsonInput with the locked settings (Pitfall 2:
@@ -19,23 +20,23 @@
  *    6. Otherwise return { warnings }.
  *
  *  Seam shape (locked, do not break):
- *    compileVerify(source, chain) →
- *      Promise<{ warnings: CompileDiagnostic[] }>  on success
- *      throws CliError(ERR_COMPILE_FAILED)         on any severity:"error"
- *      throws CliError(ERR_NOT_IMPLEMENTED)        for chain === "solana" until Phase 7
- *
- *  Phase 7's anchor-build adapter will plug into this same signature.
+ *    compileVerify(source, chain, opts?) →
+ *      Promise<CompileResult> ({ warnings, skipped, skipReason? })  on success
+ *      throws CliError(ERR_COMPILE_FAILED)                          on any error
+ *    opts.programName / opts.solanaDeps parameterize the Solana branch.
  */
 
 import {
   CliError,
   ERR_COMPILE_FAILED,
-  ERR_NOT_IMPLEMENTED,
 } from "../lib/errors.js";
 import { safeReadVersion } from "../lib/version.js";
 import { makeImportCallback } from "./imports.js";
+import { compileVerifySolana } from "./solana.js";
+import type { SolanaVerifyDeps } from "./solana.js";
 import type {
   CompileDiagnostic,
+  CompileResult,
   StandardJsonInput,
   SolcOutput,
 } from "./types.js";
@@ -95,16 +96,12 @@ function normalizeDiagnostic(e: {
 export async function compileVerify(
   source: string,
   chain: "evm" | "solana",
-): Promise<{ warnings: CompileDiagnostic[] }> {
+  opts: { programName?: string; solanaDeps?: SolanaVerifyDeps } = {},
+): Promise<CompileResult> {
   if (chain === "solana") {
-    // CONTEXT D-06 FINAL: Phase 7 will replace this with the anchor-build branch.
-    throw new CliError({
-      code: ERR_NOT_IMPLEMENTED,
-      what: "Solana compile-verify is not implemented yet.",
-      why: "SPL templates ship in Phase 7, which adds an anchor-build adapter behind this same compileVerify interface.",
-      fix: "Generate an EVM template (`smartc create --template erc20`) until Phase 7 lands.",
-      exitCode: 1,
-    });
+    // Phase 7: anchor-build adapter. Returns skipped:true when anchor is absent
+    // (SPL-05) or throws E_COMPILE_FAILED when the build fails.
+    return compileVerifySolana(source, opts.programName ?? "spl_token", opts.solanaDeps);
   }
 
   // chain === "evm"
@@ -154,5 +151,5 @@ export async function compileVerify(
     });
   }
 
-  return { warnings };
+  return { warnings, skipped: false };
 }

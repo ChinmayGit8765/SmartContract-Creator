@@ -35,6 +35,17 @@ export interface StandardJsonInput {
   };
 }
 
+/** Phase 7 — the chain-agnostic return shape of compileVerify.
+ *  `skipped` is true when verification could not run (e.g. the Solana toolchain
+ *  is absent); the dispatcher still writes the file but warns the user (SPL-05).
+ *  EVM always returns skipped:false (solc is bundled). Added field only — the
+ *  Phase 3 callers that destructured `{ warnings }` keep working. */
+export interface CompileResult {
+  readonly warnings: CompileDiagnostic[];
+  readonly skipped: boolean;
+  readonly skipReason?: string;
+}
+
 export interface SolcOutput {
   readonly errors?: Array<{
     severity: "error" | "warning" | "info";

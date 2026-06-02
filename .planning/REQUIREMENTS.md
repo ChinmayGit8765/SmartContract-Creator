@@ -50,11 +50,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### SPL Token (Solana / Rust + Anchor)
 
-- [ ] **SPL-01**: User can generate a Solana SPL token program with configurable name, symbol, decimals, and initial supply
-- [ ] **SPL-02**: User is explicitly prompted to choose mint authority — null (revoked immediately, immutable supply) or single key (mutable supply)
-- [ ] **SPL-03**: User is explicitly prompted to choose freeze authority — null (no freeze ever) or single key (freezable)
-- [ ] **SPL-04**: User can opt in to Metaplex metadata generation so wallets can display token name/symbol/image
-- [ ] **SPL-05**: When Anchor is missing, the SPL output is still written and the user sees a clear warning that compile-verify was skipped
+- [x] **SPL-01**: User can generate a Solana SPL token program with configurable name, symbol, decimals, and initial supply
+- [x] **SPL-02**: User is explicitly prompted to choose mint authority — null (revoked immediately, immutable supply) or single key (mutable supply)
+- [x] **SPL-03**: User is explicitly prompted to choose freeze authority — null (no freeze ever) or single key (freezable)
+- [x] **SPL-04**: User can opt in to Metaplex metadata generation so wallets can display token name/symbol/image
+- [x] **SPL-05**: When Anchor is missing, the SPL output is still written and the user sees a clear warning that compile-verify was skipped
 
 ### Compile-Verify
 
@@ -70,7 +70,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **DEPLOY-02**: DEPLOY.md for EVM templates includes step-by-step Hardhat deploy commands
 - [x] **DEPLOY-03**: DEPLOY.md for EVM templates includes step-by-step Foundry (`forge`) deploy commands
 - [x] **DEPLOY-04**: DEPLOY.md for EVM templates includes an "Open in Remix" one-liner for the absolute simplest deploy path
-- [ ] **DEPLOY-05**: DEPLOY.md for SPL includes `spl-token` CLI + Anchor deploy commands for Solana devnet and mainnet-beta
+- [x] **DEPLOY-05**: DEPLOY.md for SPL includes `spl-token` CLI + Anchor deploy commands for Solana devnet and mainnet-beta
 - [x] **DEPLOY-06**: DEPLOY.md auto-discloses centralization warnings based on the user's option combination (e.g., Ownable + Mintable produces a "single key can mint unlimited tokens" warning)
 - [x] **DEPLOY-07**: DEPLOY.md includes copy-pasteable Etherscan/Solscan verification command snippets
 - [x] **DEPLOY-08**: DEPLOY.md includes a pre-deploy safety checklist (review owner address, set up multisig, test on testnet, etc.)
@@ -173,13 +173,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ERC1155-03 | Phase 4 | Complete |
 | ERC1155-04 | Phase 4 | Complete |
 | ERC1155-05 | Phase 4 | Complete |
-| SPL-01 | Phase 7 | Pending |
-| SPL-02 | Phase 7 | Pending |
-| SPL-03 | Phase 7 | Pending |
-| SPL-04 | Phase 7 | Pending |
-| SPL-05 | Phase 7 | Pending |
+| SPL-01 | Phase 7 | Complete |
+| SPL-02 | Phase 7 | Complete |
+| SPL-03 | Phase 7 | Complete |
+| SPL-04 | Phase 7 | Complete |
+| SPL-05 | Phase 7 | Complete |
 | COMP-01 | Phase 3 | Complete |
-| COMP-02 | Phase 7 | Pending |
+| COMP-02 | Phase 7 | Complete |
 | COMP-03 | Phase 3 | Complete |
 | COMP-04 | Phase 3 | Complete |
 | COMP-05 | Phase 3 | Complete |
@@ -187,7 +187,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEPLOY-02 | Phase 5 | Complete |
 | DEPLOY-03 | Phase 5 | Complete |
 | DEPLOY-04 | Phase 5 | Complete |
-| DEPLOY-05 | Phase 7 | Pending |
+| DEPLOY-05 | Phase 7 | Complete |
 | DEPLOY-06 | Phase 5 | Complete |
 | DEPLOY-07 | Phase 5 | Complete |
 | DEPLOY-08 | Phase 5 | Complete |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-30 — Phase 6 complete: DOCTOR-01/02/03 marked Complete (`smartc doctor` probes Node/solc/anchor/cargo-build-sbf/ollama; required-tool exit code). Prior: Phase 5 complete (DEPLOY-01/02/03/04/06/07/08); DEPLOY-05 + COMP-02 stay Pending for Phase 7.*
+*Last updated: 2026-05-31 — Phase 7 complete: SPL-01..05 + COMP-02 + DEPLOY-05 marked Complete (SPL token template, anchor-build adapter with graceful degradation, Solana DEPLOY sections). Remaining Pending: AI-01..06 (Phase 8), CLI-01 + DIST-01..03 (Phase 9). (ERC20-01..05 + COMP-01 shipped in Phases 2-3 but their checkboxes/traceability were never flipped — pre-existing bookkeeping gap, left untouched to stay in scope.)*

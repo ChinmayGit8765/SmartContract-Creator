@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 6 complete; Phase 7 (SPL token) next
-last_updated: "2026-05-30T00:00:00.000Z"
-last_activity: 2026-05-30 -- Phase 06 complete
+stopped_at: Phase 7 complete; Phase 8 (AI add-feature) next
+last_updated: "2026-05-31T00:00:00.000Z"
+last_activity: 2026-05-31 -- Phase 07 complete
 progress:
   total_phases: 9
-  completed_phases: 6
-  total_plans: 22
-  completed_plans: 22
-  percent: 67
+  completed_phases: 7
+  total_plans: 23
+  completed_plans: 23
+  percent: 78
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 07 — SPL token (Solana / Anchor)
+**Current focus:** Phase 08 — AI add-feature (Ollama)
 
 ## Current Position
 
-Phase: 07 (spl-token) — PENDING DISCUSS
+Phase: 08 (ai-add-feature) — PENDING DISCUSS
 Plan: (none yet)
-Status: Phase 06 complete; Phase 07 next
-Last activity: 2026-05-30 -- Phase 06 complete
+Status: Phase 07 complete; Phase 08 next
+Last activity: 2026-05-31 -- Phase 07 complete
 
-Progress: [███████░░░] ~67% (22 of ~33 plans across roadmap)
+Progress: [████████░░] ~78% (23 of ~29 plans across roadmap)
 
 ## Performance Metrics
 
@@ -111,7 +111,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-30T00:00:00.000Z
-Stopped at: Phase 6 complete; Phase 7 (SPL token) next
-Resume file: (none yet — Phase 7 discuss not started)
-Next plan: Phase 7 (SPL Token / Solana / Anchor) — see ROADMAP.md.
+Last session: 2026-05-31T00:00:00.000Z
+Stopped at: Phase 7 complete; Phase 8 (AI add-feature) next
+Resume file: (none yet — Phase 8 discuss not started)
+Next plan: Phase 8 (AI add-feature / Ollama) — see ROADMAP.md.

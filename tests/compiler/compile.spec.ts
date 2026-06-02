@@ -94,19 +94,39 @@ describe("compileVerify (mocked solc)", () => {
     compileMock.mockReset();
   });
 
-  it("chain='solana' throws CliError(E_NOT_IMPLEMENTED) with Phase 7 pointer in why", async () => {
-    await expect(compileVerify("contract X {}", "solana")).rejects.toMatchObject({
-      code: "E_NOT_IMPLEMENTED",
-      exitCode: 1,
+  it("chain='solana' returns skipped:true when the anchor toolchain is absent (SPL-05)", async () => {
+    // Phase 7: solana no longer throws NOT_IMPLEMENTED — it delegates to the
+    // anchor-build adapter, which gracefully skips when anchor isn't installed.
+    const result = await compileVerify("// rust", "solana", {
+      programName: "x",
+      solanaDeps: { detectAnchor: async () => null },
     });
-    try {
-      await compileVerify("contract X {}", "solana");
-      throw new Error("expected throw");
-    } catch (err: unknown) {
-      const e = err as { why: string; what: string };
-      expect(e.why).toMatch(/Phase 7/);
-      expect(e.what.toLowerCase()).toContain("solana");
-    }
+    expect(result.skipped).toBe(true);
+    expect(result.warnings).toEqual([]);
+    expect(result.skipReason).toMatch(/anchor/i);
+  });
+
+  it("chain='solana' returns skipped:false on a successful anchor build", async () => {
+    const result = await compileVerify("// rust", "solana", {
+      programName: "x",
+      solanaDeps: {
+        detectAnchor: async () => "anchor-cli 0.30.1",
+        runBuild: async () => ({ code: 0, stdout: "ok", stderr: "" }),
+      },
+    });
+    expect(result.skipped).toBe(false);
+  });
+
+  it("chain='solana' throws E_COMPILE_FAILED when the anchor build fails", async () => {
+    await expect(
+      compileVerify("// rust", "solana", {
+        programName: "x",
+        solanaDeps: {
+          detectAnchor: async () => "anchor-cli 0.30.1",
+          runBuild: async () => ({ code: 101, stdout: "", stderr: "error[E0433]: boom" }),
+        },
+      }),
+    ).rejects.toMatchObject({ code: "E_COMPILE_FAILED", exitCode: 1 });
   });
 
   it("chain='evm' calls solc.compile with the locked standard JSON shape", async () => {

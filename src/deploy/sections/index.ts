@@ -15,6 +15,12 @@ import { hardhat } from "./hardhat.js";
 import { foundry } from "./foundry.js";
 import { etherscan } from "./etherscan.js";
 import { constructorArgsSection } from "./constructor-args.js";
+import { solanaHeader } from "./solana/header.js";
+import { solanaParams } from "./solana/params.js";
+import { solanaSafetyChecklist } from "./solana/safety-checklist.js";
+import { solanaSplTokenCli } from "./solana/spl-token-cli.js";
+import { solanaAnchor } from "./solana/anchor.js";
+import { solanaSolscan } from "./solana/solscan.js";
 import type { DeployChain, DeployMeta } from "../types.js";
 
 export type Section = (meta: DeployMeta) => string;
@@ -35,6 +41,19 @@ export function sectionsFor(chain: DeployChain, now?: Date): Section[] {
       constructorArgsSection,
     ];
   }
-  // Phase 7: if (chain === "solana") return SOLANA_SECTIONS;
+  if (chain === "solana") {
+    // Solana section set (DEPLOY-05): header, warnings, safety, params, then the
+    // two deploy paths (spl-token CLI + Anchor) covering devnet + mainnet-beta,
+    // then Solscan. warningsSection is reused (it renders meta.warnings generically).
+    return [
+      (m) => solanaHeader(m, now),
+      warningsSection,
+      solanaSafetyChecklist,
+      solanaParams,
+      solanaSplTokenCli,
+      solanaAnchor,
+      solanaSolscan,
+    ];
+  }
   throw new Error(`No deploy sections registered for chain '${chain}'`);
 }

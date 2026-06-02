@@ -33,6 +33,10 @@ export interface DeployFlags {
   readonly supply?: boolean; // erc1155
   readonly updatableUri?: boolean; // erc1155 (always true — owner-controlled setURI)
   readonly premintNonZero?: boolean; // erc20 (premint !== "0" — drives `recipient` ctor arg)
+  // spl (Solana) — authority footguns + metadata (Phase 7):
+  readonly mintAuthorityRetained?: boolean; // spl (true when the deployer keeps mint authority)
+  readonly freezeAuthorityRetained?: boolean; // spl (true when the deployer can freeze accounts)
+  readonly metadata?: boolean; // spl (Metaplex Token Metadata enabled)
 }
 
 export type WarningSeverity = "critical" | "info";

@@ -55,3 +55,18 @@ export function erc1155ConstructorArgs(flags: DeployFlags): ConstructorArg[] {
   if (flags.access === "roles") return rolesArgs(flags);
   return [ADDR("initialOwner")]; // none OR ownable ⇒ initialOwner
 }
+
+/** SPL "args" are the editable source constants (not an EVM constructor). The
+ *  exampleValue carries the user's ACTUAL chosen value (none are secrets) so the
+ *  Solana DEPLOY.md can echo the token parameters baked into the program. */
+export function splConstructorArgs(params: {
+  symbol: string;
+  decimals: number;
+  supply: string;
+}): ConstructorArg[] {
+  return [
+    { name: "TOKEN_SYMBOL", type: "string", exampleValue: params.symbol },
+    { name: "TOKEN_DECIMALS", type: "u8", exampleValue: String(params.decimals) },
+    { name: "INITIAL_SUPPLY", type: "u64", exampleValue: params.supply },
+  ];
+}

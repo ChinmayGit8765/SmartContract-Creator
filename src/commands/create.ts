@@ -108,7 +108,10 @@ export function createCommand(): Command {
         exitCode: 2,
       });
     }
-    const { warnings } = await compileVerify(source, tpl.chain);
+    const programName = filename.replace(/\.(sol|rs)$/i, "");
+    const { warnings, skipped, skipReason } = await compileVerify(source, tpl.chain, {
+      programName,
+    });
     for (const w of warnings) {
       output.warn(w.formattedMessage);
     }
@@ -116,6 +119,11 @@ export function createCommand(): Command {
       output.explain(
         "Warnings don't block deployment but often point at latent bugs. Review each before shipping.",
       );
+    }
+    // SPL-05: compile-verify may be skipped when the toolchain is absent. Surface
+    // the reason but still write the file (graceful degradation).
+    if (skipped && skipReason) {
+      output.warn(skipReason);
     }
 
     // 4. Resolve output path + derive the DEPLOY.md path (D-07/D-09 — only when the
@@ -143,11 +151,15 @@ export function createCommand(): Command {
     }
 
     // 7. Surface newbie next steps (UI-05 locked copy).
-    const solcVer = safeReadVersion("solc") ?? "unknown";
-    const ozVer = safeReadVersion("@openzeppelin/contracts") ?? "unknown";
-    output.nextStep(
-      `Compile-verified against solc ${solcVer} + @openzeppelin/contracts ${ozVer}.`,
-    );
+    if (tpl.chain === "evm") {
+      const solcVer = safeReadVersion("solc") ?? "unknown";
+      const ozVer = safeReadVersion("@openzeppelin/contracts") ?? "unknown";
+      output.nextStep(
+        `Compile-verified against solc ${solcVer} + @openzeppelin/contracts ${ozVer}.`,
+      );
+    } else if (!skipped) {
+      output.nextStep("Compile-verified via 'anchor build'.");
+    }
     if (deployPath) {
       output.nextStep(
         `Read ${deployPath} for copy-pasteable deploy + verify commands.`,
