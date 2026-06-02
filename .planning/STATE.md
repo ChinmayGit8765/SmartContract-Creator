@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 5 complete; Phase 6 (doctor) next
-last_updated: "2026-05-29T00:00:00.000Z"
-last_activity: 2026-05-29 -- Phase 05 complete
+stopped_at: Phase 6 complete; Phase 7 (SPL token) next
+last_updated: "2026-05-30T00:00:00.000Z"
+last_activity: 2026-05-30 -- Phase 06 complete
 progress:
   total_phases: 9
-  completed_phases: 5
-  total_plans: 21
-  completed_plans: 21
-  percent: 56
+  completed_phases: 6
+  total_plans: 22
+  completed_plans: 22
+  percent: 67
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 06 — doctor & environment probe
+**Current focus:** Phase 07 — SPL token (Solana / Anchor)
 
 ## Current Position
 
-Phase: 06 (doctor) — PENDING DISCUSS
+Phase: 07 (spl-token) — PENDING DISCUSS
 Plan: (none yet)
-Status: Phase 05 complete; Phase 06 next
-Last activity: 2026-05-29 -- Phase 05 complete
+Status: Phase 06 complete; Phase 07 next
+Last activity: 2026-05-30 -- Phase 06 complete
 
-Progress: [█████░░░░░] ~56% (21 of ~36 plans across roadmap)
+Progress: [███████░░░] ~67% (22 of ~33 plans across roadmap)
 
 ## Performance Metrics
 
@@ -111,7 +111,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-29T00:00:00.000Z
-Stopped at: Phase 5 complete; Phase 6 (doctor) next
-Resume file: (none yet — Phase 6 discuss not started)
-Next plan: Phase 6 (Doctor & Environment Probe) — see ROADMAP.md.
+Last session: 2026-05-30T00:00:00.000Z
+Stopped at: Phase 6 complete; Phase 7 (SPL token) next
+Resume file: (none yet — Phase 7 discuss not started)
+Next plan: Phase 7 (SPL Token / Solana / Anchor) — see ROADMAP.md.

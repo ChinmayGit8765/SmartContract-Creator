@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Compile-Verify Safety Net** - In-process Solidity compile gate; nothing un-compilable reaches disk
 - [x] **Phase 4: ERC-721 + ERC-1155 Templates** - Full Solidity template coverage validating additive-only plugin model
 - [x] **Phase 5: DEPLOY.md Generation** - Deployment docs with per-option centralization warnings for every Solidity template
-- [ ] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
+- [x] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
 - [ ] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
 - [ ] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
 - [ ] **Phase 9: Cross-Platform Distribution** - Public GitHub repo, npm-installable globally, CI verified on Windows/macOS/Linux
@@ -122,10 +122,10 @@ Plans:
   1. User runs `smartc doctor` and sees a clear report for Node, solc (bundled), anchor, cargo-build-sbf, and ollama
   2. Each tool is reported with found yes/no, version, and status (OK / missing / outdated)
   3. `smartc doctor` exits with code 0 when minimum requirements are met and code 1 otherwise, so it's scriptable in CI
-**Plans**: TBD
+**Plans**: 1 plan in 1 wave (complete)
 
 Plans:
-- [ ] 06-01: TBD
+- [x] 06-01-PLAN.md — src/doctor/ module (ProbeResult + 5 probes + runProbes/doctorExitCode) + `smartc doctor` command (table/JSON/exit code) + program wiring + tests
 
 ### Phase 7: SPL Token (Solana / Anchor)
 **Goal**: User can scaffold a Solana SPL token program with explicit authority choices, and the tool degrades gracefully when the Anchor toolchain is absent.
@@ -182,7 +182,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 3. Compile-Verify Safety Net | 4/4 | Complete | 2026-05-27 |
 | 4. ERC-721 + ERC-1155 Templates | 4/4 | Complete | 2026-05-28 |
 | 5. DEPLOY.md Generation | 4/4 | Complete | 2026-05-29 |
-| 6. Doctor & Environment Probe | 0/TBD | Not started | - |
+| 6. Doctor & Environment Probe | 1/1 | Complete | 2026-05-30 |
 | 7. SPL Token (Solana / Anchor) | 0/TBD | Not started | - |
 | 8. AI add-feature (Ollama) | 0/TBD | Not started | - |
 | 9. Cross-Platform Distribution | 0/TBD | Not started | - |

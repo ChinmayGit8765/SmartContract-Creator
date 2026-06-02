@@ -40,6 +40,7 @@ describe("smartc CLI (e2e)", () => {
     expect(r.status).toBe(0);
     expect(r.stdout).toContain("create");
     expect(r.stdout).toContain("list-templates");
+    expect(r.stdout).toContain("doctor");
     expect(r.stdout).toContain("--newbie");
     expect(r.stdout).toContain("--verbose");
     expect(r.stdout).toContain("--force");
@@ -163,5 +164,25 @@ describe("smartc CLI (e2e)", () => {
     const r = runCli(["--no-color", "create"]);
     expect(r.status).toBe(2);
     expect(r.stderr).not.toMatch(/\x1b\[/);
+  }, 15_000);
+
+  it("DOCTOR-01/03: doctor reports the toolchain and exits 0 when required tools are present", () => {
+    const r = runCli(["doctor"]);
+    // Node runs this test and solc is a bundled dependency, so required tools are OK.
+    expect(r.status).toBe(0);
+    expect(r.stdout).toContain("Node.js");
+    expect(r.stdout).toContain("solc (bundled)");
+    expect(r.stdout).toContain("anchor");
+    expect(r.stdout).toContain("ollama");
+  }, 15_000);
+
+  it("DOCTOR-02: doctor --json emits the per-tool found/version/status shape", () => {
+    const r = runCli(["doctor", "--json"]);
+    expect(r.status).toBe(0);
+    const parsed = JSON.parse(r.stdout) as { ok: boolean; tools: Array<Record<string, unknown>> };
+    expect(parsed.ok).toBe(true);
+    expect(parsed.tools).toHaveLength(5);
+    expect(parsed.tools[0]).toHaveProperty("status");
+    expect(parsed.tools[0]).toHaveProperty("version");
   }, 15_000);
 });

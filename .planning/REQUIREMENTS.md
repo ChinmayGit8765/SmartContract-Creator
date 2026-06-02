@@ -20,9 +20,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Doctor / Environment
 
-- [ ] **DOCTOR-01**: User can run `smartc doctor` to see status of Node, solc (bundled), anchor, cargo-build-sbf, and ollama
-- [ ] **DOCTOR-02**: Doctor reports each tool with: found (yes/no), version, status (OK / missing / outdated)
-- [ ] **DOCTOR-03**: Doctor exits 0 if all minimum requirements met, 1 otherwise
+- [x] **DOCTOR-01**: User can run `smartc doctor` to see status of Node, solc (bundled), anchor, cargo-build-sbf, and ollama
+- [x] **DOCTOR-02**: Doctor reports each tool with: found (yes/no), version, status (OK / missing / outdated)
+- [x] **DOCTOR-03**: Doctor exits 0 if all minimum requirements met, 1 otherwise
 
 ### ERC-20 (Solidity)
 
@@ -155,9 +155,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CLI-06 | Phase 1 | Complete |
 | CLI-07 | Phase 1 | Complete |
 | CLI-08 | Phase 1 | Complete |
-| DOCTOR-01 | Phase 6 | Pending |
-| DOCTOR-02 | Phase 6 | Pending |
-| DOCTOR-03 | Phase 6 | Pending |
+| DOCTOR-01 | Phase 6 | Complete |
+| DOCTOR-02 | Phase 6 | Complete |
+| DOCTOR-03 | Phase 6 | Complete |
 | ERC20-01 | Phase 2 | Pending |
 | ERC20-02 | Phase 2 | Pending |
 | ERC20-03 | Phase 2 | Pending |
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-29 — Phase 5 complete: DEPLOY-01/02/03/04/06/07/08 marked Complete (deploy-doc framework shipped). DEPLOY-05 (SPL deploy commands) stays Pending — it is carved out to Phase 7, where the SPL template and its `chain:"solana"` section renderers land on the chain-keyed registry seam built in Phase 5.*
+*Last updated: 2026-05-30 — Phase 6 complete: DOCTOR-01/02/03 marked Complete (`smartc doctor` probes Node/solc/anchor/cargo-build-sbf/ollama; required-tool exit code). Prior: Phase 5 complete (DEPLOY-01/02/03/04/06/07/08); DEPLOY-05 + COMP-02 stay Pending for Phase 7.*
