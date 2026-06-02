@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A green run of this workflow is the gate before publishing (DIST-01).
+jobs:
+  build-test:
+    name: ${{ matrix.os }} · Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # DIST-01: prove the published package installs globally and runs on every
+      # OS. Uses bash uniformly (available on GitHub's Windows runners) so the
+      # tarball glob + global install work the same everywhere.
+      - name: Global install smoke test
+        shell: bash
+        run: |
+          TGZ=$(npm pack | tail -1)
+          npm install -g "./$TGZ"
+          smartc --version
+          smartc --help
+          smartc list-templates
+          # doctor exits 0 when required tools (Node + bundled solc) are present.
+          smartc doctor

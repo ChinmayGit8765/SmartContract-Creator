@@ -1,0 +1,20 @@
+# smartc
+
+> A Node CLI that generates compile-verified smart contracts (ERC-20, ERC-721, ERC-1155 on EVM; SPL on Solana/Anchor) from a wizard, each paired with a DEPLOY.md of deploy commands and option-specific safety warnings. Solidity is compiled in-process before anything is written; nothing un-compilable reaches disk. Optional local-Ollama `add-feature` patches existing contracts with a diff preview and sandbox-compile rollback. No cloud, no API keys, no transaction broadcasting.
+
+Key facts for LLMs:
+- Install: `npm install -g smartc` (Node 20+). Commands: `create`, `list-templates`, `doctor`, `add-feature`.
+- `list-templates --json` and `doctor --json` are stable machine outputs; `create` is an interactive wizard (no `--json`).
+- Exit codes: 0 ok, 1 runtime error, 2 usage error, 130 cancelled. Errors carry a stable `code:` token.
+- Template ids: erc20, erc721, erc1155, spl.
+
+## Docs
+- [README](README.md): overview, install, quickstart, template examples, license.
+- [How-to guide](docs/HOWTO.md): step-by-step usage for every command and template.
+- [Forking & extending](docs/FORKING.md): project layout, the additive plugin model, adding a template or chain.
+- [Embedding guide](docs/EMBEDDING.md): scripting, LLM tool-calling, and MCP-server integration; stable JSON contracts and exit codes.
+- [Agent contract](AGENTS.md): compact capability + invocation reference for AI agents.
+
+## Optional
+- [Ollama](https://ollama.com): required only for `add-feature` (local AI). Default model `qwen2.5-coder`.
+- [Anchor](https://www.anchor-lang.com): required only to compile-verify the SPL (Solana) template; without it the file is still written with a "verification skipped" warning.

@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### CLI Foundation
 
-- [ ] **CLI-01**: User can install the CLI globally via `npm install -g smartc`
+- [x] **CLI-01**: User can install the CLI globally via `npm install -g smartc`
 - [x] **CLI-02**: User can run `smartc --help` to see all commands and flags
 - [x] **CLI-03**: User can run `smartc create` to launch the interactive wizard
 - [x] **CLI-04**: User can run `smartc list-templates` to see available templates with descriptions
@@ -26,11 +26,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### ERC-20 (Solidity)
 
-- [ ] **ERC20-01**: User can generate an ERC-20 contract with configurable name, symbol, and initial supply
-- [ ] **ERC20-02**: User can opt in to Mintable (post-deploy minting by an authorized account)
-- [ ] **ERC20-03**: User can opt in to Burnable (holders can burn their own tokens)
-- [ ] **ERC20-04**: User can opt in to Pausable (authorized account can pause transfers)
-- [ ] **ERC20-05**: When Mintable or Pausable is selected, user picks access control style: Ownable (single owner) or AccessControl (multi-role)
+- [x] **ERC20-01**: User can generate an ERC-20 contract with configurable name, symbol, and initial supply
+- [x] **ERC20-02**: User can opt in to Mintable (post-deploy minting by an authorized account)
+- [x] **ERC20-03**: User can opt in to Burnable (holders can burn their own tokens)
+- [x] **ERC20-04**: User can opt in to Pausable (authorized account can pause transfers)
+- [x] **ERC20-05**: When Mintable or Pausable is selected, user picks access control style: Ownable (single owner) or AccessControl (multi-role)
 
 ### ERC-721 (Solidity NFT)
 
@@ -86,9 +86,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Distribution
 
-- [ ] **DIST-01**: Package is installable via `npm install -g smartc` and works on Windows, macOS, and Linux (verified in CI matrix)
-- [ ] **DIST-02**: Public GitHub repo includes README with install instructions, quickstart, and license
-- [ ] **DIST-03**: README includes example generated outputs (snippets or links) for each of the 4 templates
+- [x] **DIST-01**: Package is installable via `npm install -g smartc` and works on Windows, macOS, and Linux (verified in CI matrix)
+- [x] **DIST-02**: Public GitHub repo includes README with install instructions, quickstart, and license
+- [x] **DIST-03**: README includes example generated outputs (snippets or links) for each of the 4 templates
 
 ## v2 Requirements
 
@@ -147,7 +147,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLI-01 | Phase 9 | Pending |
+| CLI-01 | Phase 9 | Complete |
 | CLI-02 | Phase 1 | Complete |
 | CLI-03 | Phase 1 | Complete |
 | CLI-04 | Phase 1 | Complete |
@@ -158,11 +158,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOCTOR-01 | Phase 6 | Complete |
 | DOCTOR-02 | Phase 6 | Complete |
 | DOCTOR-03 | Phase 6 | Complete |
-| ERC20-01 | Phase 2 | Pending |
-| ERC20-02 | Phase 2 | Pending |
-| ERC20-03 | Phase 2 | Pending |
-| ERC20-04 | Phase 2 | Pending |
-| ERC20-05 | Phase 2 | Pending |
+| ERC20-01 | Phase 2 | Complete |
+| ERC20-02 | Phase 2 | Complete |
+| ERC20-03 | Phase 2 | Complete |
+| ERC20-04 | Phase 2 | Complete |
+| ERC20-05 | Phase 2 | Complete |
 | ERC721-01 | Phase 4 | Complete |
 | ERC721-02 | Phase 4 | Complete |
 | ERC721-03 | Phase 4 | Complete |
@@ -197,9 +197,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AI-04 | Phase 8 | Complete |
 | AI-05 | Phase 8 | Complete |
 | AI-06 | Phase 8 | Complete |
-| DIST-01 | Phase 9 | Pending |
-| DIST-02 | Phase 9 | Pending |
-| DIST-03 | Phase 9 | Pending |
+| DIST-01 | Phase 9 | Complete |
+| DIST-02 | Phase 9 | Complete |
+| DIST-03 | Phase 9 | Complete |
 
 **Coverage:**
 - v1 requirements: 53 total
@@ -213,4 +213,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-06-01 — Phase 8 complete: AI-01..06 marked Complete (local-Ollama add-feature with diff preview, confirm, and sandbox-compile rollback). Remaining Pending: CLI-01 + DIST-01..03 (Phase 9 — Distribution). (ERC20-01..05 + COMP-01 shipped in Phases 2-3 but their checkboxes/traceability were never flipped — pre-existing bookkeeping gap, left untouched to stay in scope.)*
+*Last updated: 2026-06-02 — Phase 9 complete: CLI-01 + DIST-01/02/03 marked Complete (npm packaging + MIT license + public README + 3-OS CI matrix with global-install smoke + how-to/forking/embedding docs + AGENTS.md/llms.txt). Also flipped the long-stale ERC20-01..05 + COMP-01 marks (shipped in Phases 2-3). **MILESTONE v1.0 COMPLETE — all 53 v1 requirements Complete; all 9 phases done.***

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 8 complete; Phase 9 (distribution) next
-last_updated: "2026-06-01T00:00:00.000Z"
-last_activity: 2026-06-01 -- Phase 08 complete
+status: milestone-complete
+stopped_at: Phase 9 complete — milestone v1.0 done
+last_updated: "2026-06-02T00:00:00.000Z"
+last_activity: 2026-06-02 -- Phase 09 complete; v1.0 milestone complete
 progress:
   total_phases: 9
-  completed_phases: 8
-  total_plans: 24
-  completed_plans: 24
-  percent: 89
+  completed_phases: 9
+  total_plans: 25
+  completed_plans: 25
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Generate a working, compile-verified smart contract file from a wizard — no boilerplate, no remembering EIPs, no scaffolding a full project.
-**Current focus:** Phase 09 — Cross-Platform Distribution
+**Current focus:** milestone v1.0 COMPLETE — all 9 phases shipped.
 
 ## Current Position
 
-Phase: 09 (distribution) — PENDING DISCUSS
-Plan: (none yet)
-Status: Phase 08 complete; Phase 09 next (final phase)
-Last activity: 2026-06-01 -- Phase 08 complete
+Phase: — (all 9 complete)
+Plan: —
+Status: v1.0 milestone complete; 53/53 v1 requirements done.
+Last activity: 2026-06-02 -- Phase 09 complete; v1.0 milestone complete
 
-Progress: [█████████░] ~89% (24 of ~27 plans across roadmap)
+Progress: [██████████] 100% (25 plans across 9 phases)
 
 ## Performance Metrics
 
@@ -111,7 +111,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-01T00:00:00.000Z
-Stopped at: Phase 8 complete; Phase 9 (distribution) next
-Resume file: (none yet — Phase 9 discuss not started)
-Next plan: Phase 9 (Cross-Platform Distribution) — see ROADMAP.md.
+Last session: 2026-06-02T00:00:00.000Z
+Stopped at: Phase 9 complete — milestone v1.0 done
+Resume file: (none — milestone complete)
+Next plan: none. v1 is feature-complete. Optional next steps: publish to npm (set NPM_TOKEN + `npm publish`), tag a release, or start a v2 milestone (see REQUIREMENTS v2 section).

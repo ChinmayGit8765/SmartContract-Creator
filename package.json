@@ -1,13 +1,42 @@
 {
   "name": "smartc",
   "version": "0.1.0",
-  "description": "Generate compile-verified smart contracts from a wizard.",
+  "description": "Generate compile-verified smart contracts (ERC-20/721/1155, SPL) from a wizard, with a DEPLOY.md.",
   "type": "module",
+  "license": "MIT",
+  "author": "Chinmay Purohit",
+  "homepage": "https://github.com/ChinmayGit8765/SmartContract-Creator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChinmayGit8765/SmartContract-Creator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChinmayGit8765/SmartContract-Creator/issues"
+  },
+  "keywords": [
+    "smart-contract",
+    "solidity",
+    "erc20",
+    "erc721",
+    "erc1155",
+    "solana",
+    "spl-token",
+    "anchor",
+    "scaffold",
+    "generator",
+    "cli",
+    "wizard",
+    "web3",
+    "ethereum",
+    "openzeppelin"
+  ],
   "bin": {
     "smartc": "./dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=20"
@@ -17,7 +46,8 @@
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",

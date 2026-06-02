@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 6: Doctor & Environment Probe** - Toolchain detection command, prerequisite to graceful SPL degradation
 - [x] **Phase 7: SPL Token (Solana / Anchor)** - Rust/Anchor template with shell-out compile adapter and authority footgun prompts
 - [x] **Phase 8: AI add-feature (Ollama)** - Local-LLM patch flow with sandbox-compile-then-write rollback safety
-- [ ] **Phase 9: Cross-Platform Distribution** - Public GitHub repo, npm-installable globally, CI verified on Windows/macOS/Linux
+- [x] **Phase 9: Cross-Platform Distribution** - Public GitHub repo, npm-installable globally, CI verified on Windows/macOS/Linux
 
 ## Phase Details
 
@@ -165,10 +165,10 @@ Plans:
   1. User on any of Windows, macOS, or Linux can install the package via `npm install -g smartc` and run `smartc --help` successfully
   2. CI runs the install on all three OSes for every release-candidate build, and a green CI is required before publish
   3. The public GitHub repo's README includes install instructions, a quickstart, a license, and example generated outputs for each of the four templates
-**Plans**: TBD
+**Plans**: 1 plan in 1 wave (complete)
 
 Plans:
-- [ ] 09-01: TBD
+- [x] 09-01-PLAN.md — npm packaging + MIT LICENSE + public README (4 template examples) + 3-OS x Node 20/22 CI matrix with global-install smoke + docs (HOWTO/FORKING/EMBEDDING) + AGENTS.md/llms.txt
 
 ## Progress
 
@@ -185,7 +185,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 6. Doctor & Environment Probe | 1/1 | Complete | 2026-05-30 |
 | 7. SPL Token (Solana / Anchor) | 1/1 | Complete | 2026-05-31 |
 | 8. AI add-feature (Ollama) | 1/1 | Complete | 2026-06-01 |
-| 9. Cross-Platform Distribution | 0/TBD | Not started | - |
+| 9. Cross-Platform Distribution | 1/1 | Complete | 2026-06-02 |
 
 ---
 *Roadmap created: 2026-05-15*
