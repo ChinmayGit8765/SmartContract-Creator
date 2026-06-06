@@ -1,5 +1,9 @@
 # smartc
 
+[![npm version](https://img.shields.io/npm/v/smartc.svg)](https://www.npmjs.com/package/smartc)
+[![license: MIT](https://img.shields.io/npm/l/smartc.svg)](LICENSE)
+[![node](https://img.shields.io/node/v/smartc.svg)](https://nodejs.org)
+
 **Generate working, compile-verified smart contracts from a wizard — no boilerplate, no remembering EIPs, no scaffolding a whole project just to write one contract.**
 
 `smartc` is a single-binary CLI that walks you through a few questions and writes one contract file plus a matching `DEPLOY.md` (copy-pasteable deploy + verify commands and option-specific safety warnings). Every Solidity contract is **compiled in-process before it touches disk** — if it doesn't compile, nothing is written.
